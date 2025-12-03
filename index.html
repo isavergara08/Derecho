@@ -223,15 +223,16 @@ const semesters = [
       { name: 'Ética Profesional', credits: 3 },
       { name: 'Derecho Internacional Privado', credits: 3 },
       { name: 'Materia Facultativa 3', credits: 3 },
-      { name: 'Materia Facultativa 4', credits: 3 }
+      { name: 'Curso Libre Elección 2', credits: 3 }   // CLE 2 movido aquí
   ]},
-  { name: '9° semestre', credits: 19, subjects: [
+  { name: '9° semestre', credits: 22, subjects: [
       { name: 'Opciones de Grado', credits: 3 },
       { name: 'Consultorio Jurídico I', credits: 4 },
+      { name: 'Materia Facultativa 4', credits: 3 },   // movida desde 8° semestre
       { name: 'Materia Facultativa 5', credits: 3 },
-      { name: 'Curso Libre Elección 2', credits: 3 },
       { name: 'Curso Libre Elección 3', credits: 3 },
-      { name: 'Curso Libre Elección 4', credits: 3 }
+      { name: 'Curso Libre Elección 4', credits: 3 },
+      { name: 'Curso Libre Elección 1', credits: 3 }   // CLE 1 sigue en 3° semestre
   ]},
   { name: '10° semestre', credits: 10, subjects: [
       { name: 'Consultorio Jurídico II', credits: 4 },
@@ -240,6 +241,7 @@ const semesters = [
   ]}
 ];
 
+// Funciones de renderizado y almacenamiento
 let approved = JSON.parse(localStorage.getItem('malla-aprobadas') || '{}');
 let filter = 'all';
 
@@ -329,4 +331,3 @@ render();
 
 </body>
 </html>
-
