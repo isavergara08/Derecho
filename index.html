@@ -8,88 +8,130 @@
 <style>
   body {
     font-family: Arial, sans-serif;
-    background: #faf7ff;
-    margin:0;
-    padding:20px;
+    background: linear-gradient(to bottom, #f6eaff, #fdfbff);
+    margin: 0;
+    padding: 20px;
   }
 
-  h1 { margin-bottom: 10px; }
+  h1 {
+    margin: 0;
+    font-size: 32px;
+  }
 
+  /* --- HEADER --- */
   .header {
-    background:#f3e8ff;
-    border:1px solid #c084fc;
-    padding:15px;
-    border-radius:12px;
-    margin-bottom:20px;
+    background: #f3e8ff;
+    border: 1px solid #c084fc;
+    padding: 20px;
+    border-radius: 22px;
+    margin-bottom: 25px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.05);
   }
 
-  .bar {
-    width:100%;
-    height:16px;
-    background:white;
-    border-radius:10px;
-    border:1px solid #c084fc;
-    overflow:hidden;
-    margin-top:10px;
+  /* --- PROGRESS BAR --- */
+  .progress-container {
+    width: 100%;
+    height: 14px;
+    background: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #d4b5ff;
+    overflow: hidden;
+    margin-top: 12px;
   }
 
-  .bar span {
-    display:block;
-    height:100%;
-    background:#c084fc;
-    width:0%;
-    transition:0.3s;
+  .progress-bar {
+    height: 100%;
+    background: #be70ff;
+    width: 0%;
+    transition: width 0.3s;
   }
 
+  /* --- BUTTONS --- */
   .menu button {
-    border:1px solid #c084fc;
-    background:white;
-    padding:5px 10px;
-    border-radius:20px;
-    margin:2px;
-    cursor:pointer;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 20px;
+    cursor: pointer;
+    background: #e9d3ff;
+    font-weight: bold;
+    transition: 0.2s;
   }
 
+  .menu button:hover {
+    background: #d9b8ff;
+  }
+
+  .menu button:nth-child(4) {
+    background: #ffd9df;
+    color: #ff5570;
+    border: none;
+  }
+
+  /* --- GRID --- */
   .grid {
-    display:grid;
-    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
-    gap:15px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px,1fr));
+    gap: 22px;
   }
 
+  /* --- SEMESTER CARD --- */
   .card {
-    border:1px solid #c084fc;
-    background:white;
-    padding:15px;
-    border-radius:15px;
+    background: #f7eaff;
+    border-radius: 25px;
+    padding: 20px;
+    border: 2px solid #d3b4ff;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    transition: 0.2s;
   }
 
   .card.complete {
-    background:#ede9fe;
-    border-color:#7c3aed;
+    border-color: #9b53ff;
+    background: #efe6ff;
   }
 
-  .subject {
-    display:flex;
-    gap:6px;
-    align-items:center;
-    margin-bottom:4px;
-    padding:6px;
-    border-radius:8px;
-    border:1px solid #ccc;
-    cursor:pointer;
-  }
-
-  .subject.checked {
-    background:#f3e8ff;
+  .card h2 {
+    margin: 0;
+    font-size: 22px;
+    color: #8238ff;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .tag {
-    background:#7c3aed;
-    color:white;
-    padding:3px 7px;
-    border-radius:7px;
-    font-size:12px;
-    margin-left:auto;
+    background: #9b53ff;
+    color: white;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+  }
+
+  /* --- SUBJECT BLOCKS (solid pastel) --- */
+  .subject {
+    padding: 12px;
+    margin-bottom: 8px;
+    border-radius: 18px;
+    background: #eedbff;
+    font-size: 15px;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  .subject:hover {
+    background: #e3c7ff;
+  }
+
+  .subject.checked {
+    background: #d9b5ff;
+  }
+
+  input[type="checkbox"] {
+    transform: scale(1.2);
+    cursor: pointer;
   }
 </style>
 </head>
@@ -98,21 +140,24 @@
 
 <div class="header">
   <h1>Malla interactiva – Derecho</h1>
-  Créditos aprobados: <b id="approvedCredits">0</b> / 180
+  <p style="margin-top:4px;">Créditos aprobados: <b id="approvedCredits">0</b> / 180</p>
 
-  <div class="bar"><span id="progress"></span></div>
+  <div class="progress-container">
+    <div id="progress" class="progress-bar"></div>
+  </div>
 
-  <div class="menu">
+  <div class="menu" style="margin-top:15px;">
     <button onclick="setFilter('all')">Todas</button>
     <button onclick="setFilter('approved')">Aprobadas</button>
     <button onclick="setFilter('pending')">Pendientes</button>
-    <button onclick="resetAll()" style="color:red">Reiniciar</button>
+    <button onclick="resetAll()">Reiniciar</button>
   </div>
 </div>
 
 <div id="grid" class="grid"></div>
 
 <script>
+/* ---------------- DATA ---------------- */
 const TOTAL_CREDITS = 180;
 
 const semesters = [
@@ -200,6 +245,7 @@ const semesters = [
   ]}
 ];
 
+/* ---------------- LOGIC ---------------- */
 let approved = JSON.parse(localStorage.getItem('malla-aprobadas') || '{}');
 let filter = 'all';
 
@@ -221,13 +267,13 @@ function resetAll(){
 }
 
 function totalApproved(){
-  let sum = 0;
+  let s = 0;
   semesters.forEach(sem => 
     sem.subjects.forEach(sub => {
-      if (approved[sub.name]) sum += sub.credits;
+      if (approved[sub.name]) s += sub.credits;
     })
   );
-  return sum;
+  return s;
 }
 
 function isSemesterComplete(sem){
@@ -235,11 +281,7 @@ function isSemesterComplete(sem){
 }
 
 function semesterApprovedCredits(sem){
-  let sum = 0;
-  sem.subjects.forEach(s => {
-    if (approved[s.name]) sum += s.credits;
-  });
-  return sum;
+  return sem.subjects.reduce((a,s)=> a + (approved[s.name] ? s.credits : 0), 0);
 }
 
 function render(){
@@ -256,11 +298,11 @@ function render(){
     if (isSemesterComplete(sem)) card.classList.add('complete');
 
     card.innerHTML = `
-      <h2 style="font-size:20px; color:#7c3aed; font-weight:bold;">
+      <h2>
         ${sem.name}
         ${isSemesterComplete(sem) ? '<span class="tag">COMPLETO</span>' : ''}
       </h2>
-      <p><b>${semesterApprovedCredits(sem)}</b> / ${sem.credits} créditos</p>
+      <p style="margin:8px 0 12px;"><b>${semesterApprovedCredits(sem)}</b> / ${sem.credits} créditos</p>
     `;
 
     sem.subjects
@@ -273,7 +315,8 @@ function render(){
         const label = document.createElement('label');
         label.className = 'subject' + (approved[sub.name] ? ' checked' : '');
         label.innerHTML = `
-          <input type="checkbox" ${approved[sub.name]?'checked':''} onchange="toggle('${sub.name}')">
+          <input type="checkbox" ${approved[sub.name]?'checked':''}
+                 onchange="toggle('${sub.name}')">
           ${sub.name} (${sub.credits})
         `;
         card.appendChild(label);
