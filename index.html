@@ -74,7 +74,6 @@
     width: 100%;
   }
 
-  /* RESPONSIVE */
   @media (max-width: 900px) {
     .grid {
       grid-template-columns: repeat(2, 1fr);
@@ -98,7 +97,7 @@
     }
   }
 
-  /* SEMESTER CARD */
+  /* TARJETA DE SEMESTRE */
   .card {
     background: #faf4ff;
     border-radius: 25px;
@@ -114,14 +113,19 @@
     border-color: #a673ff;
   }
 
-  .card h2 {
-    margin: 0;
+  /* ENCABEZADO MORADO DEL SEMESTRE */
+  .sem-title {
+    background: #8238FF;
+    color: white;
+    padding: 12px 0;
+    border-radius: 16px;
+    margin-bottom: 10px;
     font-size: 22px;
-    color: #8238ff;
+    font-weight: bold;
+    text-align: center;
   }
 
-  /* CENTRAR TÍTULOS Y CRÉDITOS */
-  .card h2,
+  /* CENTRAR CRÉDITOS */
   .card p {
     text-align: center;
   }
@@ -134,6 +138,7 @@
     font-size: 11px;
     display: inline-block;
     margin-top: 6px;
+    text-align: center;
   }
 
   /* SUBJECTS SUAVES */
@@ -185,7 +190,7 @@
 
 <div id="grid" class="grid"></div>
 
-  <script>
+<script>
 const TOTAL_CREDITS = 180;
 
 const semesters = [
@@ -329,7 +334,7 @@ function render(){
     let tag = isSemesterComplete(sem) ? `<div class="tag">COMPLETO</div>` : '';
 
     card.innerHTML = `
-      <h2>${sem.name}</h2>
+      <div class="sem-title">${sem.name}</div>
       ${tag}
       <p><b>${semesterApprovedCredits(sem)}</b> / ${sem.credits} créditos</p>
     `;
