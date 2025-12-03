@@ -75,7 +75,7 @@
     background: #d8baff;
   }
 
-  /* BOTÓN REINICIAR GRIS */
+  /* REINICIAR → gris */
   .menu button:nth-child(4) {
     background: #e6e6e6;
     color: #555;
@@ -134,7 +134,7 @@
     text-align: center;
   }
 
-  /* Línea que contiene: TAG + Créditos */
+  /* INFO LINE (tag + créditos) */
   .info-line {
     display: flex;
     justify-content: center;
@@ -144,8 +144,8 @@
   }
 
   .credits-text {
-    font-weight: 400; /* SIN NEGRITA */
-    color: #444;
+    font-weight: 400; 
+    color: #000; /* NEGRO — corregido */
   }
 
   .tag {
@@ -168,17 +168,18 @@
     transition: 0.2s;
     font-weight: 400;
     user-select: none;
+    color: #000; /* TEXTO NEGRO */
   }
 
   .subject:hover {
     background: #eedbff;
   }
 
-  /* Materia marcada TACHADA */
+  /* Materia marcada (tachada) */
   .subject.checked {
     background: #e3c7ff;
     text-decoration: line-through;
-    text-decoration-thickness: 2.5px;  /* MÁS GRUESO */
+    text-decoration-thickness: 1.5px;  /* MÁS DELGADA, PERO BELLA */
     color: #7a4bb3;
   }
 </style>
@@ -188,7 +189,7 @@
 
 <div class="header">
   <h1>Malla interactiva – Derecho</h1>
-  <p>Créditos aprobados: <b id="approvedCredits">0</b> / 180</p>
+  <p>Créditos aprobados: <span id="approvedCredits">0</span> / 180</p>
 
   <div class="progress-container">
       <div id="progress" class="progress-bar"></div>
@@ -321,8 +322,7 @@ function totalApproved(){
   return semesters.reduce(
     (sum, sem) =>
       sum + sem.subjects.reduce(
-        (s, sub)=> s + (approved[sub.name] ? sub.credits : 0),
-      0
+        (s, sub)=> s + (approved[sub.name] ? sub.credits : 0), 0
       ), 
   0);
 }
@@ -333,8 +333,8 @@ function isSemesterComplete(sem){
 
 function semesterApprovedCredits(sem){
   return sem.subjects.reduce(
-    (s, sub)=> s + (approved[sub.name] ? sub.credits : 0), 
-  0);
+    (s, sub)=> s + (approved[sub.name] ? sub.credits : 0), 0
+  );
 }
 
 function render(){
