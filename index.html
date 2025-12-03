@@ -155,6 +155,8 @@
 <div id="grid" class="grid"></div>
 
 <script>
+const TOTAL_CREDITS = 180;
+
 const semesters = [
   {
     name: '1° semestre',
@@ -165,9 +167,10 @@ const semesters = [
       { name: 'Introducción al Derecho', credits: 4 },
       { name: 'Matemáticas', credits: 3 },
       { name: 'Escritura Universitaria I', credits: 2 },
-      { name: 'CBU I (CBCO) - Colombia país de desigualdades', credits: 2 }
+      { name: 'CBU 1 (CBCO) - Colombia país de desigualdades', credits: 2 }
     ]
   },
+
   {
     name: '2° semestre',
     credits: 18,
@@ -177,10 +180,11 @@ const semesters = [
       { name: 'Sociología Jurídica', credits: 3 },
       { name: 'Historia de las Instituciones Jurídicas', credits: 3 },
       { name: 'Escritura Universitaria II', credits: 2 },
-      { name: 'CBU II (CBCA) - Teatro, juventud y rebelión', credits: 2 },
-      { name: 'CBU III (CBCC) - Colombia, espacio y tiempo', credits: 2 }
+      { name: 'CBU 2 (CBCA) - Teatro, juventud y rebelión', credits: 2 },
+      { name: 'CBU 3 (CBCC) - Colombia, espacio y tiempo', credits: 2 }
     ]
   },
+
   {
     name: '3° semestre',
     credits: 18,
@@ -189,10 +193,11 @@ const semesters = [
       { name: 'Obligaciones I', credits: 5 },
       { name: 'Derecho Constitucional', credits: 5 },
       { name: 'Propiedad y Derechos Reales', credits: 3 },
-      { name: 'CBU IV (Libre) - Cantos de boga', credits: 2 },
+      { name: 'CBU 4 (Libre) - Cantos de boga', credits: 2 },
       { name: 'Examen de Ciclo I', credits: 0 }
     ]
   },
+
   {
     name: '4° semestre',
     credits: 18,
@@ -201,9 +206,10 @@ const semesters = [
       { name: 'Obligaciones II', credits: 5 },
       { name: 'Legislación y Políticas Públicas', credits: 3 },
       { name: 'Derecho Internacional', credits: 3 },
-      { name: 'CBU V (Libre) - Quijote, dilemas universales', credits: 2 }
+      { name: 'CBU 5 (Libre) - Quijote, dilemas universales', credits: 2 }
     ]
   },
+
   {
     name: '5° semestre',
     credits: 18,
@@ -213,33 +219,37 @@ const semesters = [
       { name: 'Derecho Comercial', credits: 3 },
       { name: 'Derecho Penal', credits: 3 },
       { name: 'Derecho Público Administrativo', credits: 3 },
-      { name: 'CBU VI (Libre) - Mentalidad de Crecimiento', credits: 2 },
-      { name: 'Requisito de lectura en inglés', credits: 0 }
+      { name: 'CBU 6 (Libre) - Mentalidad de Crecimiento', credits: 2 }
     ]
   },
+
   {
     name: '6° semestre',
-    credits: 17,
-    subjects: [
-      { name: 'Protección Laboral', credits: 3 },
-      { name: 'Pruebas', credits: 3 },
-      { name: 'Contratos', credits: 5 },
-      { name: 'Penal Especial', credits: 3 },
-      { name: 'Argumentación en Procesos Civiles', credits: 3 }
+  credits: 20,
+  subjects: [
+    { name: 'Protección Laboral', credits: 3 },
+    { name: 'Pruebas', credits: 3 },
+    { name: 'Contratos', credits: 5 },
+    { name: 'Penal Especial', credits: 3 },
+    { name: 'Argumentación en Procesos Civiles', credits: 3 },
+    { name: 'Materia Facultativa 1', credits: 3 }
     ]
   },
+
   {
     name: '7° semestre',
-    credits: 18,
+    credits: 21,
     subjects: [
       { name: 'Relaciones Familiares', credits: 4 },
       { name: 'Sociedades', credits: 3 },
       { name: 'Contratos Estatales', credits: 3 },
       { name: 'Proceso Ejecutivo y Declarativo', credits: 3 },
       { name: 'Argumentación en Procesos Penales', credits: 3 },
-      { name: 'CBU VII (CBCP) - Comportamiento y Cerebro Humano', credits: 2 }
+      { name: 'CBU 7 (CBCP) - Comportamiento y Cerebro Humano', credits: 2 },
+      { name: 'Materia Facultativa 2', credits: 3 }
     ]
   },
+
   {
     name: '8° semestre',
     credits: 18,
@@ -252,6 +262,7 @@ const semesters = [
       { name: 'Materia Facultativa', credits: 3 }
     ]
   },
+
   {
     name: '9° semestre',
     credits: 19,
@@ -261,10 +272,10 @@ const semesters = [
       { name: 'Materia Facultativa 1', credits: 3 },
       { name: 'Materia Facultativa 2', credits: 3 },
       { name: 'Materia Facultativa 3', credits: 3 },
-      { name: 'Materia Facultativa 4', credits: 3 },
-      { name: 'Requisito segunda lengua', credits: 0 }
+      { name: 'Materia Facultativa 4', credits: 3 }
     ]
   },
+
   {
     name: '10° semestre',
     credits: 19,
@@ -279,8 +290,6 @@ const semesters = [
     ]
   }
 ];
-
-const TOTAL_CREDITS = semesters.reduce((sum, sem) => sum + sem.credits, 0);
 
 let approved = JSON.parse(localStorage.getItem('malla-aprobadas') || '{}');
 let filter = 'all';
