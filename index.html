@@ -118,9 +118,12 @@
     margin: 0;
     font-size: 22px;
     color: #8238ff;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  }
+
+  /* CENTRAR TÍTULOS Y CRÉDITOS */
+  .card h2,
+  .card p {
+    text-align: center;
   }
 
   .tag {
@@ -129,6 +132,8 @@
     padding: 4px 10px;
     border-radius: 12px;
     font-size: 11px;
+    display: inline-block;
+    margin-top: 6px;
   }
 
   /* SUBJECTS SUAVES */
@@ -180,7 +185,7 @@
 
 <div id="grid" class="grid"></div>
 
-<script>
+  <script>
 const TOTAL_CREDITS = 180;
 
 const semesters = [
@@ -199,8 +204,7 @@ const semesters = [
     { name: 'Sociología Jurídica', credits: 3 },
     { name: 'Historia de las Instituciones Jurídicas', credits: 3 },
     { name: 'Escritura Universitaria II', credits: 2 },
-    { name: 'CBU II', credits: 2 },
-    { name: 'CBU III', credits: 2 }
+    { name: 'CBU II', credits: 2 }
   ]},
 
   { name: '3° semestre', credits: 18, subjects: [
@@ -226,8 +230,7 @@ const semesters = [
     { name: 'Derecho Comercial', credits: 3 },
     { name: 'Derecho Penal', credits: 3 },
     { name: 'Derecho Público Administrativo', credits: 3 },
-    { name: 'CBU VI', credits: 2 },
-    { name: 'Requisito de lectura en inglés', credits: 0 }
+    { name: 'CBU VI', credits: 2 }
   ]},
 
   { name: '6° semestre', credits: 17, subjects: [
@@ -262,8 +265,7 @@ const semesters = [
     { name: 'Materia Facultativa 1', credits: 3 },
     { name: 'Materia Facultativa 2', credits: 3 },
     { name: 'Materia Facultativa 3', credits: 3 },
-    { name: 'Materia Facultativa 4', credits: 3 },
-    { name: 'Requisito segunda lengua', credits: 0 }
+    { name: 'Materia Facultativa 4', credits: 3 }
   ]},
 
   { name: '10° semestre', credits: 19, subjects: [
@@ -272,8 +274,7 @@ const semesters = [
     { name: 'Curso Libre Elección 1', credits: 3 },
     { name: 'Curso Libre Elección 2', credits: 3 },
     { name: 'Curso Libre Elección 3', credits: 3 },
-    { name: 'Curso Libre Elección 4', credits: 3 },
-    { name: 'Examen de Facultad', credits: 0 }
+    { name: 'Curso Libre Elección 4', credits: 3 }
   ]}
 ];
 
@@ -282,65 +283,67 @@ let filter = 'all';
 
 function toggle(name){
   approved[name] = !approved[name];
-  localStorage.setItem('malla-aprobadas',JSON.stringify(approved));
+  localStorage.setItem('malla-aprobadas', JSON.stringify(approved));
   render();
 }
 
 function setFilter(f){
-  filter=f;
+  filter = f;
   render();
 }
 
 function resetAll(){
-  approved={};
+  approved = {};
   localStorage.removeItem('malla-aprobadas');
   render();
 }
 
 function totalApproved(){
   return semesters.reduce((sum, sem) =>
-    sum + sem.subjects.reduce((s,sub)=> s + (approved[sub.name]?sub.credits:0),0)
-  ,0);
+    sum + sem.subjects.reduce((s, sub)=> s + (approved[sub.name] ? sub.credits : 0), 0)
+  , 0);
 }
 
 function isSemesterComplete(sem){
-  return sem.subjects.every(s => approved[s.name] || s.credits===0);
+  return sem.subjects.every(s => approved[s.name] || s.credits === 0);
 }
 
 function semesterApprovedCredits(sem){
-  return sem.subjects.reduce((s,sub)=> s + (approved[sub.name]?sub.credits:0),0);
+  return sem.subjects.reduce((s, sub)=> s + (approved[sub.name] ? sub.credits : 0), 0);
 }
 
 function render(){
-  const grid=document.getElementById('grid');
-  grid.innerHTML='';
+  const grid = document.getElementById('grid');
+  grid.innerHTML = '';
 
   const total = totalApproved();
-  document.getElementById('approvedCredits').textContent=total;
-  document.getElementById('progress').style.width=(total/TOTAL_CREDITS*100)+'%';
+  document.getElementById('approvedCredits').textContent = total;
+  document.getElementById('progress').style.width = (total / TOTAL_CREDITS * 100) + '%';
 
-  semesters.forEach(sem=>{
-    const card=document.createElement('div');
-    card.className='card';
+  semesters.forEach(sem =>{
+    const card = document.createElement('div');
+    card.className = 'card';
+
     if(isSemesterComplete(sem)) card.classList.add('complete');
 
-    card.innerHTML=`
-      <h2>${sem.name}
-        ${isSemesterComplete(sem)?'<span class="tag">COMPLETO</span>':''}
-      </h2>
-      <p style="margin:8px 0 12px;"><b>${semesterApprovedCredits(sem)}</b> / ${sem.credits} créditos</p>
+    let tag = isSemesterComplete(sem) ? `<div class="tag">COMPLETO</div>` : '';
+
+    card.innerHTML = `
+      <h2>${sem.name}</h2>
+      ${tag}
+      <p><b>${semesterApprovedCredits(sem)}</b> / ${sem.credits} créditos</p>
     `;
 
     sem.subjects
       .filter(sub=>{
-        if(filter==='approved') return approved[sub.name];
-        if(filter==='pending') return !approved[sub.name];
+        if(filter === 'approved') return approved[sub.name];
+        if(filter === 'pending') return !approved[sub.name];
         return true;
       })
       .forEach(sub=>{
-        const label=document.createElement('label');
-        label.className='subject'+(approved[sub.name]?' checked':'');
-        label.innerHTML=`
+        const label = document.createElement('label');
+        label.className = 'subject' + (approved[sub.name] ? ' checked':'');
+        label.innerHTML = `
           <input type="checkbox" ${approved[sub.name]?'checked':''}
           onchange="toggle('${sub.name}')"> 
           ${sub.name} (${sub.credits})
