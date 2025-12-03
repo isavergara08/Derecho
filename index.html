@@ -13,59 +13,68 @@
     padding: 40px;
   }
 
-  h1 {
-    margin: 0;
-    font-size: 32px;
-  }
-
-  /* HEADER */
+  /* HEADER NUEVO CENTRADO */
   .header {
-    background: #f3e8ff;
-    border: 1px solid #c084fc;
-    padding: 20px;
-    border-radius: 22px;
-    margin-bottom: 35px;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.05);
+    text-align: center;
+    margin-bottom: 40px;
   }
 
+  .header h1 {
+    font-size: 36px;
+    font-weight: bold;
+    color: #000000;
+    margin-bottom: 5px;
+  }
+
+  .header p {
+    font-size: 18px;
+    margin-top: 5px;
+    color: #333333;
+  }
+
+  /* BARRA DE PROGRESO ESTILIZADA */
   .progress-container {
-    width: 100%;
+    width: 60%;
     height: 14px;
-    background: #ffffff;
+    background: #f2dfff;
     border-radius: 10px;
-    border: 1px solid #d4b5ff;
-    overflow: hidden;
-    margin-top: 12px;
+    margin: 15px auto;
   }
 
   .progress-bar {
     height: 100%;
-    background: #be70ff;
+    background: #8238FF;
     width: 0%;
     transition: width 0.3s;
   }
 
+  /* BOTONES */
+  .menu {
+    margin-top: 15px;
+  }
+
   .menu button {
     border: none;
-    padding: 8px 18px;
+    padding: 10px 20px;
     border-radius: 20px;
     cursor: pointer;
-    background: #e9d3ff;
+    background: #e8d4ff;
     font-weight: bold;
     transition: 0.2s;
-    margin-right: 10px;
+    margin: 5px;
+    color: #5b21b6;
   }
 
   .menu button:hover {
-    background: #d9b8ff;
+    background: #d8baff;
   }
 
   .menu button:nth-child(4) {
-    background: #ffd9df;
-    color: #ff5570;
+    background: #ffd6e2;
+    color: #d82656;
   }
 
-  /* GRID PERFECTO */
+  /* GRID PERFECTO 3×3 */
   .grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -75,29 +84,22 @@
   }
 
   @media (max-width: 900px) {
-    .grid {
-      grid-template-columns: repeat(2, 1fr);
-    }
+    .grid { grid-template-columns: repeat(2, 1fr); }
   }
 
   @media (max-width: 600px) {
-    .grid {
-      grid-template-columns: 1fr;
-    }
+    .grid { grid-template-columns: 1fr; }
   }
 
-  /* SEMESTRE 10 CENTRADO */
   .grid .card:last-child {
     grid-column: 2 / 3;
   }
 
   @media (max-width: 900px) {
-    .grid .card:last-child {
-      grid-column: auto;
-    }
+    .grid .card:last-child { grid-column: auto; }
   }
 
-  /* TARJETA DE SEMESTRE */
+  /* TARJETAS */
   .card {
     background: #faf4ff;
     border-radius: 25px;
@@ -113,7 +115,7 @@
     border-color: #a673ff;
   }
 
-  /* ENCABEZADO MORADO DEL SEMESTRE */
+  /* TÍTULO MORADO DEL SEMESTRE */
   .sem-title {
     background: #8238FF;
     color: white;
@@ -125,7 +127,6 @@
     text-align: center;
   }
 
-  /* CENTRAR CRÉDITOS */
   .card p {
     text-align: center;
   }
@@ -137,11 +138,10 @@
     border-radius: 12px;
     font-size: 11px;
     display: inline-block;
-    margin-top: 6px;
-    text-align: center;
+    margin: 6px auto;
   }
 
-  /* SUBJECTS SUAVES */
+  /* MATERIAS */
   .subject {
     padding: 12px;
     margin-bottom: 10px;
@@ -174,13 +174,13 @@
 
 <div class="header">
   <h1>Malla interactiva – Derecho</h1>
-  <p style="margin-top:4px;">Créditos aprobados: <b id="approvedCredits">0</b> / 180</p>
+  <p>Créditos aprobados: <b id="approvedCredits">0</b> / 180</p>
 
   <div class="progress-container">
-    <div id="progress" class="progress-bar"></div>
+      <div id="progress" class="progress-bar"></div>
   </div>
 
-  <div class="menu" style="margin-top:15px;">
+  <div class="menu">
     <button onclick="setFilter('all')">Todas</button>
     <button onclick="setFilter('approved')">Aprobadas</button>
     <button onclick="setFilter('pending')">Pendientes</button>
