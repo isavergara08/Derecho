@@ -10,7 +10,7 @@
     font-family: Arial, sans-serif;
     background: linear-gradient(to bottom, #f7efff, #fcfaff);
     margin: 0;
-    padding: 20px;
+    padding: 40px;
   }
 
   h1 {
@@ -18,13 +18,13 @@
     font-size: 32px;
   }
 
-  /* --- HEADER --- */
+  /* HEADER */
   .header {
     background: #f3e8ff;
     border: 1px solid #c084fc;
     padding: 20px;
     border-radius: 22px;
-    margin-bottom: 25px;
+    margin-bottom: 35px;
     box-shadow: 0 6px 12px rgba(0,0,0,0.05);
   }
 
@@ -53,6 +53,7 @@
     background: #e9d3ff;
     font-weight: bold;
     transition: 0.2s;
+    margin-right: 10px;
   }
 
   .menu button:hover {
@@ -64,14 +65,40 @@
     color: #ff5570;
   }
 
-  /* --- GRID: 3 columnas hasta semestre 9 y 1 centrado --- */
+  /* GRID PERFECTO */
   .grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px,1fr));
-    gap: 30px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 35px;
     justify-items: center;
+    width: 100%;
   }
 
+  /* RESPONSIVE */
+  @media (max-width: 900px) {
+    .grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  /* SEMESTRE 10 CENTRADO */
+  .grid .card:last-child {
+    grid-column: 2 / 3;
+  }
+
+  @media (max-width: 900px) {
+    .grid .card:last-child {
+      grid-column: auto;
+    }
+  }
+
+  /* SEMESTER CARD */
   .card {
     background: #faf4ff;
     border-radius: 25px;
@@ -80,7 +107,6 @@
     box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     width: 100%;
     max-width: 350px;
-    transition: 0.2s;
   }
 
   .card.complete {
@@ -105,12 +131,12 @@
     font-size: 11px;
   }
 
-  /* --- SUBJECTS: pastel suave --- */
+  /* SUBJECTS SUAVES */
   .subject {
     padding: 12px;
     margin-bottom: 10px;
     border-radius: 18px;
-    background: #f6edff; /* más suave */
+    background: #f6edff;
     font-size: 15px;
     display: flex;
     align-items: center;
