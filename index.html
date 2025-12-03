@@ -1,101 +1,112 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <title>Malla interactiva – Derecho</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<title>Malla Interactiva – Derecho</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #faf7ff;
-      margin:0;
-      padding:20px;
-    }
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #faf7ff;
+    margin:0;
+    padding:20px;
+  }
 
-    h1 {margin-bottom:10px}
+  h1 { margin-bottom: 10px; }
 
-    .header {
-      background:#f3e8ff;
-      border:1px solid #c084fc;
-      padding:15px;
-      border-radius:12px;
-      margin-bottom:20px;
-    }
+  .header {
+    background:#f3e8ff;
+    border:1px solid #c084fc;
+    padding:15px;
+    border-radius:12px;
+    margin-bottom:20px;
+  }
 
-    .bar {
-      width:100%;
-      height:16px;
-      background:white;
-      border-radius:10px;
-      border:1px solid #c084fc;
-      overflow:hidden;
-      margin-bottom:10px;
-    }
+  .bar {
+    width:100%;
+    height:16px;
+    background:white;
+    border-radius:10px;
+    border:1px solid #c084fc;
+    overflow:hidden;
+    margin-top:10px;
+  }
 
-    .bar span {
-      display:block;
-      height:100%;
-      background:#c084fc;
-      width:0%;
-      transition:0.3s;
-    }
+  .bar span {
+    display:block;
+    height:100%;
+    background:#c084fc;
+    width:0%;
+    transition:0.3s;
+  }
 
-    .menu button {
-      border:1px solid #c084fc;
-      background:white;
-      padding:5px 10px;
-      border-radius:20px;
-      margin:2px;
-      cursor:pointer;
-    }
+  .menu button {
+    border:1px solid #c084fc;
+    background:white;
+    padding:5px 10px;
+    border-radius:20px;
+    margin:2px;
+    cursor:pointer;
+  }
 
-    .grid {
-      display:grid;
-      grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
-      gap:15px;
-    }
+  .grid {
+    display:grid;
+    grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+    gap:15px;
+  }
 
-    .card{
-      border:1px solid #c084fc;
-      background:white;
-      padding:12px;
-      border-radius:12px;
-    }
+  .card {
+    border:1px solid #c084fc;
+    background:white;
+    padding:15px;
+    border-radius:15px;
+  }
 
-    .complete {
-      background:#ede9fe;
-      border:2px solid #7c3aed;
-    }
+  .card.complete {
+    background:#ede9fe;
+    border-color:#7c3aed;
+  }
 
-    .subject {
-      display:flex;
-      gap:6px;
-      margin-bottom:4px;
-      padding:4px;
-      border-radius:8px;
-    }
+  .subject {
+    display:flex;
+    gap:6px;
+    align-items:center;
+    margin-bottom:4px;
+    padding:6px;
+    border-radius:8px;
+    border:1px solid #ccc;
+    cursor:pointer;
+  }
 
-    .subject.checked {
-      background:#f3e8ff;
-    }
-  </style>
+  .subject.checked {
+    background:#f3e8ff;
+  }
+
+  .tag {
+    background:#7c3aed;
+    color:white;
+    padding:3px 7px;
+    border-radius:7px;
+    font-size:12px;
+    margin-left:auto;
+  }
+</style>
 </head>
+
 <body>
 
 <div class="header">
-  <h1>Malla interacción – Derecho</h1>
+  <h1>Malla interactiva – Derecho</h1>
   Créditos aprobados: <b id="approvedCredits">0</b> / 180
 
-  <div class="bar">
-    <span id="progress"></span>
-  </div>
+  <div class="bar"><span id="progress"></span></div>
 
   <div class="menu">
     <button onclick="setFilter('all')">Todas</button>
     <button onclick="setFilter('approved')">Aprobadas</button>
     <button onclick="setFilter('pending')">Pendientes</button>
-    <button onclick="resetAll()">Reiniciar</button>
+    <button onclick="resetAll()" style="color:red">Reiniciar</button>
   </div>
 </div>
 
@@ -104,23 +115,88 @@
 <script>
 const TOTAL_CREDITS = 180;
 
-const data = [
-  { name:'1° semestre', credits:17, subjects:[
-    { name:'Lógica y Retórica', credits:3 },
-    { name:'Teoría General del Estado', credits:3 },
-    { name:'Introducción al Derecho', credits:4 },
-    { name:'Matemáticas', credits:3 },
-    { name:'Escritura Universitaria I', credits:2 },
-    { name:'CBU I', credits:2 }
+const semesters = [
+  { name: '1° semestre', credits: 17, subjects: [
+    { name: 'Lógica y Retórica', credits: 3 },
+    { name: 'Teoría General del Estado', credits: 3 },
+    { name: 'Introducción al Derecho', credits: 4 },
+    { name: 'Matemáticas', credits: 3 },
+    { name: 'Escritura Universitaria I', credits: 2 },
+    { name: 'CBU I', credits: 2 }
   ]},
-
-  { name:'2° semestre', credits:18, subjects:[
-    { name:'Hermenéutica Jurídica', credits:3 },
-    { name:'Derecho Romano', credits:3 },
-    { name:'Sociología Jurídica', credits:3 },
-    { name:'Historia de las Instituciones Jurídicas', credits:3 },
-    { name:'Escritura Universitaria II', credits:2 },
-    { name:'CBU II', credits:4 }
+  { name: '2° semestre', credits: 18, subjects: [
+    { name: 'Hermenéutica Jurídica', credits: 3 },
+    { name: 'Derecho Romano', credits: 3 },
+    { name: 'Sociología Jurídica', credits: 3 },
+    { name: 'Historia de las Instituciones Jurídicas', credits: 3 },
+    { name: 'Escritura Universitaria II', credits: 2 },
+    { name: 'CBU II', credits: 2 },
+    { name: 'CBU III', credits: 2 }
+  ]},
+  { name: '3° semestre', credits: 18, subjects: [
+    { name: 'Juez e Interpretación Constitucional', credits: 3 },
+    { name: 'Obligaciones I', credits: 5 },
+    { name: 'Derecho Constitucional', credits: 5 },
+    { name: 'Propiedad y Derechos Reales', credits: 3 },
+    { name: 'CBU IV', credits: 2 },
+    { name: 'Examen de Ciclo I', credits: 0 }
+  ]},
+  { name: '4° semestre', credits: 18, subjects: [
+    { name: 'Teoría Jurídica', credits: 5 },
+    { name: 'Obligaciones II', credits: 5 },
+    { name: 'Legislación y Políticas Públicas', credits: 3 },
+    { name: 'Derecho Internacional', credits: 3 },
+    { name: 'CBU V', credits: 2 }
+  ]},
+  { name: '5° semestre', credits: 18, subjects: [
+    { name: 'Procedimientos', credits: 4 },
+    { name: 'Relaciones Laborales', credits: 3 },
+    { name: 'Derecho Comercial', credits: 3 },
+    { name: 'Derecho Penal', credits: 3 },
+    { name: 'Derecho Público Administrativo', credits: 3 },
+    { name: 'CBU VI', credits: 2 },
+    { name: 'Requisito de lectura en inglés', credits: 0 }
+  ]},
+  { name: '6° semestre', credits: 17, subjects: [
+    { name: 'Protección Laboral', credits: 3 },
+    { name: 'Pruebas', credits: 3 },
+    { name: 'Contratos', credits: 5 },
+    { name: 'Penal Especial', credits: 3 },
+    { name: 'Argumentación en Procesos Civiles', credits: 3 }
+  ]},
+  { name: '7° semestre', credits: 18, subjects: [
+    { name: 'Relaciones Familiares', credits: 4 },
+    { name: 'Sociedades', credits: 3 },
+    { name: 'Contratos Estatales', credits: 3 },
+    { name: 'Proceso Ejecutivo y Declarativo', credits: 3 },
+    { name: 'Argumentación en Procesos Penales', credits: 3 },
+    { name: 'CBU VII', credits: 2 }
+  ]},
+  { name: '8° semestre', credits: 18, subjects: [
+    { name: 'Acciones Públicas', credits: 3 },
+    { name: 'Títulos Valores', credits: 3 },
+    { name: 'Derecho Comparado', credits: 3 },
+    { name: 'Ética Profesional', credits: 3 },
+    { name: 'Derecho Internacional Privado', credits: 3 },
+    { name: 'Materia Facultativa', credits: 3 }
+  ]},
+  { name: '9° semestre', credits: 19, subjects: [
+    { name: 'Opciones de Grado', credits: 3 },
+    { name: 'Consultorio Jurídico I', credits: 4 },
+    { name: 'Materia Facultativa 1', credits: 3 },
+    { name: 'Materia Facultativa 2', credits: 3 },
+    { name: 'Materia Facultativa 3', credits: 3 },
+    { name: 'Materia Facultativa 4', credits: 3 },
+    { name: 'Requisito segunda lengua', credits: 0 }
+  ]},
+  { name: '10° semestre', credits: 19, subjects: [
+    { name: 'Consultorio Jurídico II', credits: 4 },
+    { name: 'Materia Facultativa 5', credits: 3 },
+    { name: 'Curso Libre Elección 1', credits: 3 },
+    { name: 'Curso Libre Elección 2', credits: 3 },
+    { name: 'Curso Libre Elección 3', credits: 3 },
+    { name: 'Curso Libre Elección 4', credits: 3 },
+    { name: 'Examen de Facultad', credits: 0 }
   ]}
 ];
 
@@ -134,62 +210,74 @@ function toggle(name){
 }
 
 function setFilter(f){
-  filter=f;
+  filter = f;
   render();
 }
 
 function resetAll(){
-  approved={};
+  approved = {};
   localStorage.removeItem('malla-aprobadas');
   render();
 }
 
 function totalApproved(){
-  let sum=0;
-  data.forEach(s=>s.subjects.forEach(a=>{
-    if(approved[a.name]) sum+= a.credits;
-  }));
+  let sum = 0;
+  semesters.forEach(sem => 
+    sem.subjects.forEach(sub => {
+      if (approved[sub.name]) sum += sub.credits;
+    })
+  );
   return sum;
 }
 
-function semesterComplete(s){
-  return s.subjects.every(a=> approved[a.name]);
+function isSemesterComplete(sem){
+  return sem.subjects.every(s => approved[s.name] || s.credits === 0);
 }
 
-function semesterCredits(s){
-  let sum=0;
-  s.subjects.forEach(a=>{ if(approved[a.name]) sum+=a.credits });
+function semesterApprovedCredits(sem){
+  let sum = 0;
+  sem.subjects.forEach(s => {
+    if (approved[s.name]) sum += s.credits;
+  });
   return sum;
 }
 
 function render(){
   const grid = document.getElementById('grid');
-  const progress = document.getElementById('progress');
-  const approvedText = document.getElementById('approvedCredits');
-
-  grid.innerHTML='';
+  grid.innerHTML = '';
 
   const total = totalApproved();
-  approvedText.textContent=total;
-  progress.style.width=(total/TOTAL_CREDITS*100)+'%';
+  document.getElementById('approvedCredits').textContent = total;
+  document.getElementById('progress').style.width = (total/TOTAL_CREDITS*100)+'%';
 
-  data.forEach(sem=>{
-    const card=document.createElement('div');
-    card.className='card'+(semesterComplete(sem)?' complete':'');
+  semesters.forEach(sem => {
+    const card = document.createElement('div');
+    card.className = 'card';
+    if (isSemesterComplete(sem)) card.classList.add('complete');
 
-    card.innerHTML=`<h3>${sem.name}</h3>
-    <p>${semesterCredits(sem)} / ${sem.credits} créditos</p>`;
+    card.innerHTML = `
+      <h2 style="font-size:20px; color:#7c3aed; font-weight:bold;">
+        ${sem.name}
+        ${isSemesterComplete(sem) ? '<span class="tag">COMPLETO</span>' : ''}
+      </h2>
+      <p><b>${semesterApprovedCredits(sem)}</b> / ${sem.credits} créditos</p>
+    `;
 
-    sem.subjects.filter(a=>{
-      if(filter==='approved') return approved[a.name];
-      if(filter==='pending') return !approved[a.name];
-      return true;
-    }).forEach(sub=>{
-      const label=document.createElement('label');
-      label.className='subject'+(approved[sub.name]?' checked':'');
-      label.innerHTML=`<input type="checkbox" ${approved[sub.name]?'checked':''} onchange="toggle('${sub.name}')"> ${sub.name} (${sub.credits})`;
-      card.appendChild(label);
-    });
+    sem.subjects
+      .filter(sub => {
+        if (filter === 'approved') return approved[sub.name];
+        if (filter === 'pending') return !approved[sub.name];
+        return true;
+      })
+      .forEach(sub => {
+        const label = document.createElement('label');
+        label.className = 'subject' + (approved[sub.name] ? ' checked' : '');
+        label.innerHTML = `
+          <input type="checkbox" ${approved[sub.name]?'checked':''} onchange="toggle('${sub.name}')">
+          ${sub.name} (${sub.credits})
+        `;
+        card.appendChild(label);
+      });
 
     grid.appendChild(card);
   });
@@ -197,5 +285,6 @@ function render(){
 
 render();
 </script>
+
 </body>
 </html>
