@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title> Plan de estudios - Derecho </title>
+<title>Plan de estudios – Derecho</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <!-- Poppins -->
@@ -16,7 +16,6 @@
     padding: 40px;
   }
 
-  /* HEADER */
   .header {
     text-align: center;
     margin-bottom: 40px;
@@ -35,7 +34,6 @@
     color: #333;
   }
 
-  /* BARRA */
   .progress-container {
     width: 60%;
     height: 16px;
@@ -53,7 +51,6 @@
     border-radius: 999px;
   }
 
-  /* BOTONES */
   .menu {
     margin-top: 15px;
   }
@@ -75,13 +72,11 @@
     background: #d8baff;
   }
 
-  /* REINICIAR → gris */
   .menu button:nth-child(4) {
     background: #e6e6e6;
     color: #555;
   }
 
-  /* GRID */
   .grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -90,13 +85,8 @@
     width: 100%;
   }
 
-  @media (max-width: 900px) {
-    .grid { grid-template-columns: repeat(2, 1fr); }
-  }
-
-  @media (max-width: 600px) {
-    .grid { grid-template-columns: 1fr; }
-  }
+  @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
 
   .grid .card:last-child {
     grid-column: 2 / 3;
@@ -106,7 +96,6 @@
     .grid .card:last-child { grid-column: auto; }
   }
 
-  /* TARJETAS */
   .card {
     background: #faf4ff;
     border-radius: 25px;
@@ -122,7 +111,6 @@
     border-color: #a673ff;
   }
 
-  /* TÍTULO DE SEMESTRE */
   .sem-title {
     background: #8238FF;
     color: white;
@@ -134,7 +122,6 @@
     text-align: center;
   }
 
-  /* INFO LINE (tag + créditos) */
   .info-line {
     display: flex;
     justify-content: center;
@@ -145,7 +132,7 @@
 
   .credits-text {
     font-weight: 400; 
-    color: #000; /* NEGRO — corregido */
+    color: #000;
   }
 
   .tag {
@@ -157,7 +144,6 @@
     display: inline-block;
   }
 
-  /* MATERIAS */
   .subject {
     padding: 12px;
     margin-bottom: 10px;
@@ -168,18 +154,17 @@
     transition: 0.2s;
     font-weight: 400;
     user-select: none;
-    color: #000; /* TEXTO NEGRO */
+    color: #000;
   }
 
   .subject:hover {
     background: #eedbff;
   }
 
-  /* Materia marcada (tachada) */
   .subject.checked {
     background: #e3c7ff;
     text-decoration: line-through;
-    text-decoration-thickness: 1.5px;  /* MÁS DELGADA, PERO BELLA */
+    text-decoration-thickness: 1.5px;
     color: #7a4bb3;
   }
 </style>
@@ -188,7 +173,7 @@
 <body>
 
 <div class="header">
-  <h1>Plan de estudios - Derecho</h1>
+  <h1>Plan de estudios – Derecho</h1>
   <p>Créditos aprobados: <span id="approvedCredits">0</span> / 180</p>
 
   <div class="progress-container">
@@ -215,7 +200,7 @@ const semesters = [
     { name: 'Introducción al Derecho', credits: 4 },
     { name: 'Matemáticas', credits: 3 },
     { name: 'Escritura Universitaria I', credits: 2 },
-    { name: 'CBU 1 - Colombia país de desigualdades (CBCO)', credits: 2 }
+    { name: 'CBU 1 (CBCO) – Colombia país de desigualdades', credits: 2 }
   ]},
 
   { name: '2° semestre', credits: 18, subjects: [
@@ -224,8 +209,8 @@ const semesters = [
     { name: 'Sociología Jurídica', credits: 3 },
     { name: 'Historia de las Instituciones Jurídicas', credits: 3 },
     { name: 'Escritura Universitaria II', credits: 2 },
-    { name: 'CBU 2 - Cantos de Boga (Libre 1)', credits: 2 }
-    { name: 'CBU 3 - Teatro, juventud y rebelión (CBCA)', credits: 2 }
+    { name: 'CBU 2 (CBCA) – Teatro, juventud y rebelión', credits: 2 },
+    { name: 'CBU 3 (CBCC) – Colombia, espacio y tiempo', credits: 2 }
   ]},
 
   { name: '3° semestre', credits: 18, subjects: [
@@ -233,7 +218,7 @@ const semesters = [
     { name: 'Obligaciones I', credits: 5 },
     { name: 'Derecho Constitucional', credits: 5 },
     { name: 'Propiedad y Derechos Reales', credits: 3 },
-    { name: 'CBU 4 - Colombia, espacio y tiempo (CBCC)', credits: 2 },
+    { name: 'CBU 4 (CBCP)', credits: 2 },
     { name: 'Examen de Ciclo I', credits: 0 }
   ]},
 
@@ -242,7 +227,7 @@ const semesters = [
     { name: 'Obligaciones II', credits: 5 },
     { name: 'Legislación y Políticas Públicas', credits: 3 },
     { name: 'Derecho Internacional', credits: 3 },
-    { name: 'CBU 5 - Quijote (Libre)', credits: 2 }
+    { name: 'CBU 5 (Libre) – Cantos de boga', credits: 2 }
   ]},
 
   { name: '5° semestre', credits: 18, subjects: [
@@ -251,7 +236,7 @@ const semesters = [
     { name: 'Derecho Comercial', credits: 3 },
     { name: 'Derecho Penal', credits: 3 },
     { name: 'Derecho Público Administrativo', credits: 3 },
-    { name: 'CBU 6 - Mentalidad de Crecimiento (Libre)', credits: 2 }
+    { name: 'CBU 6 (Libre) – Quijote, dilemas universales', credits: 2 }
   ]},
 
   { name: '6° semestre', credits: 17, subjects: [
@@ -268,7 +253,7 @@ const semesters = [
     { name: 'Contratos Estatales', credits: 3 },
     { name: 'Proceso Ejecutivo y Declarativo', credits: 3 },
     { name: 'Argumentación en Procesos Penales', credits: 3 },
-    { name: 'CBU 7 -  (CBCP)', credits: 2 }
+    { name: 'CBU 7 (Libre) – Mentalidad de Crecimiento', credits: 2 }
   ]},
 
   { name: '8° semestre', credits: 18, subjects: [
@@ -324,8 +309,8 @@ function totalApproved(){
     (sum, sem) =>
       sum + sem.subjects.reduce(
         (s, sub)=> s + (approved[sub.name] ? sub.credits : 0), 0
-      ), 
-  0);
+      ), 0
+  );
 }
 
 function isSemesterComplete(sem){
@@ -385,3 +370,4 @@ render();
 
 </body>
 </html>
+
