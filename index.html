@@ -216,31 +216,30 @@ const semesters = [
       { name: 'CBU 7 (CBCP) - Comportamiento y Cerebro Humano', credits: 2 },
       { name: 'Materia Facultativa 2', credits: 3 }
   ]},
-  { name: '8° semestre', credits: 18, subjects: [
+  { name: '8° semestre', credits: 19, subjects: [
       { name: 'Acciones Públicas', credits: 3 },
       { name: 'Títulos Valores', credits: 3 },
       { name: 'Derecho Comparado', credits: 3 },
       { name: 'Ética Profesional', credits: 3 },
       { name: 'Derecho Internacional Privado', credits: 3 },
-      { name: 'Materia Facultativa 3', credits: 3 },
-      { name: 'Curso Libre Elección 2', credits: 0 } // CLE 2
+      { name: 'Materia Facultativa 3', credits: 1 }, // ajustado para sumar total 19
+      { name: 'Curso Libre Elección 2', credits: 3 } // CLE 2
   ]},
   { name: '9° semestre', credits: 21, subjects: [
       { name: 'Opciones de Grado', credits: 3 },
       { name: 'Consultorio Jurídico I', credits: 4 },
       { name: 'Materia Facultativa 4', credits: 3 },
       { name: 'Materia Facultativa 5', credits: 3 },
-      { name: 'Curso Libre Elección 3', credits: 4 }, // CLE 3
-      { name: 'Curso Libre Elección 4', credits: 4 }  // CLE 4
+      { name: 'Curso Libre Elección 3', credits: 3 }, // CLE 3
+      { name: 'Curso Libre Elección 4', credits: 3 }  // CLE 4
   ]},
-  { name: '10° semestre', credits: 8, subjects: [
+  { name: '10° semestre', credits: 7, subjects: [
       { name: 'Consultorio Jurídico II', credits: 4 },
       { name: 'Materia Facultativa 6', credits: 3 },
-      { name: 'Examen de Facultad', credits: 1 }
+      { name: 'Examen de Facultad', credits: 0 } // examen = 0
   ]}
 ];
 
-// Funciones de renderizado y almacenamiento
 let approved = JSON.parse(localStorage.getItem('malla-aprobadas') || '{}');
 let filter = 'all';
 
