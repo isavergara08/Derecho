@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Malla interactiva – Derecho</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #faf7ff;
+      margin:0;
+      padding:20px;
+    }
+
+    h1 {margin-bottom:10px}
+
+    .header {
+      background:#f3e8ff;
+      border:1px solid #c084fc;
+      padding:15px;
+      border-radius:12px;
+      margin-bottom:20px;
+    }
+
+    .bar {
+      width:100%;
+      height:16px;
+      background:white;
+      border-radius:10px;
+      border:1px solid #c084fc;
+      overflow:hidden;
+      margin-bottom:10px;
+    }
+
+    .bar span {
+      display:block;
+      height:100%;
+      background:#c084fc;
+      width:0%;
+      transition:0.3s;
+    }
+
+    .menu button {
+      border:1px solid #c084fc;
+      background:white;
+      padding:5px 10px;
+      border-radius:20px;
+      margin:2px;
+      cursor:pointer;
+    }
+
+    .grid {
+      display:grid;
+      grid-template-columns: repeat(auto-fit,minmax(280px,1fr));
+      gap:15px;
+    }
+
+    .card{
+      border:1px solid #c084fc;
+      background:white;
+      padding:12px;
+      border-radius:12px;
+    }
+
+    .complete {
+      background:#ede9fe;
+      border:2px solid #7c3aed;
+    }
+
+    .subject {
+      display:flex;
+      gap:6px;
+      margin-bottom:4px;
+      padding:4px;
+      border-radius:8px;
+    }
+
+    .subject.checked {
+      background:#f3e8ff;
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>Malla interacción – Derecho</h1>
+  Créditos aprobados: <b id="approvedCredits">0</b> / 180
+
+  <div class="bar">
+    <span id="progress"></span>
+  </div>
+
+  <div class="menu">
+    <button onclick="setFilter('all')">Todas</button>
+    <button onclick="setFilter('approved')">Aprobadas</button>
+    <button onclick="setFilter('pending')">Pendientes</button>
+    <button onclick="resetAll()">Reiniciar</button>
+  </div>
+</div>
+
+<div id="grid" class="grid"></div>
+
+<script>
+const TOTAL_CREDITS = 180;
+
+const data = [
+  { name:'1° semestre', credits:17, subjects:[
+    { name:'Lógica y Retórica', credits:3 },
+    { name:'Teoría General del Estado', credits:3 },
+    { name:'Introducción al Derecho', credits:4 },
+    { name:'Matemáticas', credits:3 },
+    { name:'Escritura Universitaria I', credits:2 },
+    { name:'CBU I', credits:2 }
+  ]},
+
+  { name:'2° semestre', credits:18, subjects:[
+    { name:'Hermenéutica Jurídica', credits:3 },
+    { name:'Derecho Romano', credits:3 },
+    { name:'Sociología Jurídica', credits:3 },
+    { name:'Historia de las Instituciones Jurídicas', credits:3 },
+    { name:'Escritura Universitaria II', credits:2 },
+    { name:'CBU II', credits:4 }
+  ]}
+];
+
+let approved = JSON.parse(localStorage.getItem('malla-aprobadas') || '{}');
+let filter = 'all';
+
+function toggle(name){
+  approved[name] = !approved[name];
+  localStorage.setItem('malla-aprobadas',JSON.stringify(approved));
+  render();
+}
+
+function setFilter(f){
+  filter=f;
+  render();
+}
+
+function resetAll(){
+  approved={};
+  localStorage.removeItem('malla-aprobadas');
+  render();
+}
+
+function totalApproved(){
+  let sum=0;
+  data.forEach(s=>s.subjects.forEach(a=>{
+    if(approved[a.name]) sum+= a.credits;
+  }));
+  return sum;
+}
+
+function semesterComplete(s){
+  return s.subjects.every(a=> approved[a.name]);
+}
+
+function semesterCredits(s){
+  let sum=0;
+  s.subjects.forEach(a=>{ if(approved[a.name]) sum+=a.credits });
+  return sum;
+}
+
+function render(){
+  const grid = document.getElementById('grid');
+  const progress = document.getElementById('progress');
+  const approvedText = document.getElementById('approvedCredits');
+
+  grid.innerHTML='';
+
+  const total = totalApproved();
+  approvedText.textContent=total;
+  progress.style.width=(total/TOTAL_CREDITS*100)+'%';
+
+  data.forEach(sem=>{
+    const card=document.createElement('div');
+    card.className='card'+(semesterComplete(sem)?' complete':'');
+
+    card.innerHTML=`<h3>${sem.name}</h3>
+    <p>${semesterCredits(sem)} / ${sem.credits} créditos</p>`;
+
+    sem.subjects.filter(a=>{
+      if(filter==='approved') return approved[a.name];
+      if(filter==='pending') return !approved[a.name];
+      return true;
+    }).forEach(sub=>{
+      const label=document.createElement('label');
+      label.className='subject'+(approved[sub.name]?' checked':'');
+      label.innerHTML=`<input type="checkbox" ${approved[sub.name]?'checked':''} onchange="toggle('${sub.name}')"> ${sub.name} (${sub.credits})`;
+      card.appendChild(label);
+    });
+
+    grid.appendChild(card);
+  });
+}
+
+render();
+</script>
+</body>
+</html>
