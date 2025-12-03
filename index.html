@@ -75,9 +75,10 @@
     background: #d8baff;
   }
 
+  /* BOTÓN REINICIAR GRIS */
   .menu button:nth-child(4) {
-    background: #ffd6e2;
-    color: #d82656;
+    background: #e6e6e6;
+    color: #555;
   }
 
   /* GRID */
@@ -133,9 +134,18 @@
     text-align: center;
   }
 
-  .card p {
-    text-align: center;
-    font-weight: 500;
+  /* Línea que contiene: TAG + Créditos */
+  .info-line {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .credits-text {
+    font-weight: 400; /* SIN NEGRITA */
+    color: #444;
   }
 
   .tag {
@@ -145,10 +155,9 @@
     border-radius: 12px;
     font-size: 11px;
     display: inline-block;
-    margin: 6px auto;
   }
 
-  /* MATERIAS (sin checkbox) */
+  /* MATERIAS */
   .subject {
     padding: 12px;
     margin-bottom: 10px;
@@ -165,10 +174,11 @@
     background: #eedbff;
   }
 
-  /* Materia marcada */
+  /* Materia marcada TACHADA */
   .subject.checked {
     background: #e3c7ff;
     text-decoration: line-through;
+    text-decoration-thickness: 2.5px;  /* MÁS GRUESO */
     color: #7a4bb3;
   }
 </style>
@@ -345,8 +355,10 @@ function render(){
 
     card.innerHTML = `
       <div class="sem-title">${sem.name}</div>
-      ${tag}
-      <p><b>${semesterApprovedCredits(sem)}</b> / ${sem.credits} créditos</p>
+      <div class="info-line">
+        ${tag}
+        <span class="credits-text">${semesterApprovedCredits(sem)} / ${sem.credits} créditos</span>
+      </div>
     `;
 
     sem.subjects
