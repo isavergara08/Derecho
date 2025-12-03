@@ -16,6 +16,7 @@
     padding: 40px;
   }
 
+  /* HEADER */
   .header {
     text-align: center;
     margin-bottom: 40px;
@@ -34,6 +35,7 @@
     color: #333;
   }
 
+  /* BARRA */
   .progress-container {
     width: 60%;
     height: 16px;
@@ -51,6 +53,7 @@
     border-radius: 999px;
   }
 
+  /* BOTONES */
   .menu {
     margin-top: 15px;
   }
@@ -72,11 +75,13 @@
     background: #d8baff;
   }
 
+  /* REINICIAR → gris */
   .menu button:nth-child(4) {
     background: #e6e6e6;
     color: #555;
   }
 
+  /* GRID */
   .grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -85,8 +90,13 @@
     width: 100%;
   }
 
-  @media (max-width: 900px) { .grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: repeat(2, 1fr); }
+  }
+
+  @media (max-width: 600px) {
+    .grid { grid-template-columns: 1fr; }
+  }
 
   .grid .card:last-child {
     grid-column: 2 / 3;
@@ -96,6 +106,7 @@
     .grid .card:last-child { grid-column: auto; }
   }
 
+  /* TARJETAS */
   .card {
     background: #faf4ff;
     border-radius: 25px;
@@ -111,6 +122,7 @@
     border-color: #a673ff;
   }
 
+  /* TÍTULO DE SEMESTRE */
   .sem-title {
     background: #8238FF;
     color: white;
@@ -122,6 +134,7 @@
     text-align: center;
   }
 
+  /* INFO LINE (tag + créditos) */
   .info-line {
     display: flex;
     justify-content: center;
@@ -144,6 +157,7 @@
     display: inline-block;
   }
 
+  /* MATERIAS */
   .subject {
     padding: 12px;
     margin-bottom: 10px;
@@ -161,6 +175,7 @@
     background: #eedbff;
   }
 
+  /* Materia marcada (tachada) */
   .subject.checked {
     background: #e3c7ff;
     text-decoration: line-through;
@@ -194,94 +209,141 @@
 const TOTAL_CREDITS = 180;
 
 const semesters = [
-  { name: '1° semestre', credits: 17, subjects: [
-    { name: 'Lógica y Retórica', credits: 3 },
-    { name: 'Teoría General del Estado', credits: 3 },
-    { name: 'Introducción al Derecho', credits: 4 },
-    { name: 'Matemáticas', credits: 3 },
-    { name: 'Escritura Universitaria I', credits: 2 },
-    { name: 'CBU 1 (CBCO) – Colombia país de desigualdades', credits: 2 }
-  ]},
+  {
+    name: '1° semestre',
+    credits: 17,
+    subjects: [
+      { name: 'Lógica y Retórica', credits: 3 },
+      { name: 'Teoría General del Estado', credits: 3 },
+      { name: 'Introducción al Derecho', credits: 4 },
+      { name: 'Matemáticas', credits: 3 },
+      { name: 'Escritura Universitaria I', credits: 2 },
 
-  { name: '2° semestre', credits: 18, subjects: [
-    { name: 'Hermenéutica Jurídica', credits: 3 },
-    { name: 'Derecho Romano', credits: 3 },
-    { name: 'Sociología Jurídica', credits: 3 },
-    { name: 'Historia de las Instituciones Jurídicas', credits: 3 },
-    { name: 'Escritura Universitaria II', credits: 2 },
-    { name: 'CBU 2 (CBCA) – Teatro, juventud y rebelión', credits: 2 },
-    { name: 'CBU 3 (CBCC) – Colombia, espacio y tiempo', credits: 2 }
-  ]},
+      { name: 'CBU 1 (CBCO) - Colombia país de desigualdades', credits: 2 }
+    ]
+  },
 
-  { name: '3° semestre', credits: 18, subjects: [
-    { name: 'Juez e Interpretación Constitucional', credits: 3 },
-    { name: 'Obligaciones I', credits: 5 },
-    { name: 'Derecho Constitucional', credits: 5 },
-    { name: 'Propiedad y Derechos Reales', credits: 3 },
-    { name: 'CBU 4 (CBCP)', credits: 2 },
-    { name: 'Examen de Ciclo I', credits: 0 }
-  ]},
+  {
+    name: '2° semestre',
+    credits: 18,
+    subjects: [
+      { name: 'Hermenéutica Jurídica', credits: 3 },
+      { name: 'Derecho Romano', credits: 3 },
+      { name: 'Sociología Jurídica', credits: 3 },
+      { name: 'Historia de las Instituciones Jurídicas', credits: 3 },
+      { name: 'Escritura Universitaria II', credits: 2 },
 
-  { name: '4° semestre', credits: 18, subjects: [
-    { name: 'Teoría Jurídica', credits: 5 },
-    { name: 'Obligaciones II', credits: 5 },
-    { name: 'Legislación y Políticas Públicas', credits: 3 },
-    { name: 'Derecho Internacional', credits: 3 },
-    { name: 'CBU 5 (Libre) – Cantos de boga', credits: 2 }
-  ]},
+      { name: 'CBU 2 (CBCA) - Teatro, juventud y rebelión', credits: 2 },
+      { name: 'CBU 3 (CBCC) - Colombia, espacio y tiempo', credits: 2 }
+    ]
+  },
 
-  { name: '5° semestre', credits: 18, subjects: [
-    { name: 'Procedimientos', credits: 4 },
-    { name: 'Relaciones Laborales', credits: 3 },
-    { name: 'Derecho Comercial', credits: 3 },
-    { name: 'Derecho Penal', credits: 3 },
-    { name: 'Derecho Público Administrativo', credits: 3 },
-    { name: 'CBU 6 (Libre) – Quijote, dilemas universales', credits: 2 }
-  ]},
+  {
+    name: '3° semestre',
+    credits: 18,
+    subjects: [
+      { name: 'Juez e Interpretación Constitucional', credits: 3 },
+      { name: 'Obligaciones I', credits: 5 },
+      { name: 'Derecho Constitucional', credits: 5 },
+      { name: 'Propiedad y Derechos Reales', credits: 3 },
 
-  { name: '6° semestre', credits: 17, subjects: [
-    { name: 'Protección Laboral', credits: 3 },
-    { name: 'Pruebas', credits: 3 },
-    { name: 'Contratos', credits: 5 },
-    { name: 'Penal Especial', credits: 3 },
-    { name: 'Argumentación en Procesos Civiles', credits: 3 }
-  ]},
+      { name: 'CBU 4 (Libre) - Cantos de boga', credits: 2 },
 
-  { name: '7° semestre', credits: 18, subjects: [
-    { name: 'Relaciones Familiares', credits: 4 },
-    { name: 'Sociedades', credits: 3 },
-    { name: 'Contratos Estatales', credits: 3 },
-    { name: 'Proceso Ejecutivo y Declarativo', credits: 3 },
-    { name: 'Argumentación en Procesos Penales', credits: 3 },
-    { name: 'CBU 7 (Libre) – Mentalidad de Crecimiento', credits: 2 }
-  ]},
+      { name: 'Examen de Ciclo I', credits: 0 }
+    ]
+  },
 
-  { name: '8° semestre', credits: 18, subjects: [
-    { name: 'Acciones Públicas', credits: 3 },
-    { name: 'Títulos Valores', credits: 3 },
-    { name: 'Derecho Comparado', credits: 3 },
-    { name: 'Ética Profesional', credits: 3 },
-    { name: 'Derecho Internacional Privado', credits: 3 },
-    { name: 'Materia Facultativa', credits: 3 }
-  ]},
+  {
+    name: '4° semestre',
+    credits: 18,
+    subjects: [
+      { name: 'Teoría Jurídica', credits: 5 },
+      { name: 'Obligaciones II', credits: 5 },
+      { name: 'Legislación y Políticas Públicas', credits: 3 },
+      { name: 'Derecho Internacional', credits: 3 },
 
-  { name: '9° semestre', credits: 19, subjects: [
-    { name: 'Opciones de Grado', credits: 3 },
-    { name: 'Consultorio Jurídico I', credits: 4 },
-    { name: 'Materia Facultativa 1', credits: 3 },
-    { name: 'Materia Facultativa 2', credits: 3 },
-    { name: 'Materia Facultativa 3', credits: 3 },
-    { name: 'Materia Facultativa 4', credits: 3 }
-  ]},
+      { name: 'CBU 5 (Libre) - Quijote, dilemas universales', credits: 2 }
+    ]
+  },
 
-  { name: '10° semestre', credits: 19, subjects: [
-    { name: 'Consultorio Jurídico II', credits: 4 },
-    { name: 'Materia Facultativa 5', credits: 3 },
-    { name: 'Curso Libre Elección 1', credits: 3 },
-    { name: 'Curso Libre Elección 2', credits: 3 },
-    { name: 'Curso Libre Elección 3', credits: 3 },
-    { name: 'Curso Libre Elección 4', credits: 3 }
-  ]}
+  {
+    name: '5° semestre',
+    credits: 18,
+    subjects: [
+      { name: 'Procedimientos', credits: 4 },
+      { name: 'Relaciones Laborales', credits: 3 },
+      { name: 'Derecho Comercial', credits: 3 },
+      { name: 'Derecho Penal', credits: 3 },
+      { name: 'Derecho Público Administrativo', credits: 3 },
+
+      { name: 'CBU 6 (Libre) - Mentalidad de Crecimiento', credits: 2 }
+    ]
+  },
+
+  {
+    name: '6° semestre',
+    credits: 17,
+    subjects: [
+      { name: 'Protección Laboral', credits: 3 },
+      { name: 'Pruebas', credits: 3 },
+      { name: 'Contratos', credits: 5 },
+      { name: 'Penal Especial', credits: 3 },
+      { name: 'Argumentación en Procesos Civiles', credits: 3 }
+    ]
+  },
+
+  {
+    name: '7° semestre',
+    credits: 18,
+    subjects: [
+      { name: 'Relaciones Familiares', credits: 4 },
+      { name: 'Sociedades', credits: 3 },
+      { name: 'Contratos Estatales', credits: 3 },
+      { name: 'Proceso Ejecutivo y Declarativo', credits: 3 },
+      { name: 'Argumentación en Procesos Penales', credits: 3 },
+
+      { name: 'CBU 7 (CBCP) - Comportamiento y Cerebro Humano', credits: 2 }
+    ]
+  },
+
+  {
+    name: '8° semestre',
+    credits: 18,
+    subjects: [
+      { name: 'Acciones Públicas', credits: 3 },
+      { name: 'Títulos Valores', credits: 3 },
+      { name: 'Derecho Comparado', credits: 3 },
+      { name: 'Ética Profesional', credits: 3 },
+      { name: 'Derecho Internacional Privado', credits: 3 },
+      { name: 'Materia Facultativa', credits: 3 }
+    ]
+  },
+
+  {
+    name: '9° semestre',
+    credits: 19,
+    subjects: [
+      { name: 'Opciones de Grado', credits: 3 },
+      { name: 'Consultorio Jurídico I', credits: 4 },
+      { name: 'Materia Facultativa 1', credits: 3 },
+      { name: 'Materia Facultativa 2', credits: 3 },
+      { name: 'Materia Facultativa 3', credits: 3 },
+      { name: 'Materia Facultativa 4', credits: 3 }
+    ]
+  },
+
+  {
+    name: '10° semestre',
+    credits: 19,
+    subjects: [
+      { name: 'Consultorio Jurídico II', credits: 4 },
+      { name: 'Materia Facultativa 5', credits: 3 },
+      { name: 'Curso Libre Elección 1', credits: 3 },
+      { name: 'Curso Libre Elección 2', credits: 3 },
+      { name: 'Curso Libre Elección 3', credits: 3 },
+      { name: 'Curso Libre Elección 4', credits: 3 }
+    ]
+  }
 ];
 
 let approved = JSON.parse(localStorage.getItem('malla-aprobadas') || '{}');
@@ -309,8 +371,8 @@ function totalApproved(){
     (sum, sem) =>
       sum + sem.subjects.reduce(
         (s, sub)=> s + (approved[sub.name] ? sub.credits : 0), 0
-      ), 0
-  );
+      ), 
+  0);
 }
 
 function isSemesterComplete(sem){
@@ -370,4 +432,3 @@ render();
 
 </body>
 </html>
-
