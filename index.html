@@ -78,7 +78,7 @@ body {
   .grid { grid-template-columns: 1fr; }
 }
 
-/* 🔥 ESTO CENTRA EL 10° SEMESTRE */
+/* centrar 10° semestre */
 .grid .card:last-child {
   grid-column: 2 / 3;
 }
@@ -166,6 +166,56 @@ body {
 const TOTAL_CREDITS = 180;
 
 const semesters = [
+{ name:'1° semestre', credits:17, subjects:[
+  {name:'Lógica y Retórica',credits:3},
+  {name:'Teoría General del Estado',credits:3},
+  {name:'Introducción al Derecho',credits:4},
+  {name:'Matemáticas',credits:3},
+  {name:'Escritura Universitaria I',credits:2},
+  {name:'CBU 1 (CBCO) - Colombia país de desigualdades',credits:2}
+]},
+{ name:'2° semestre', credits:18, subjects:[
+  {name:'Hermenéutica Jurídica',credits:3},
+  {name:'Derecho Romano',credits:3},
+  {name:'Sociología Jurídica',credits:3},
+  {name:'Historia de las Instituciones Jurídicas',credits:3},
+  {name:'Escritura Universitaria II',credits:2},
+  {name:'CBU 2 (CBCA) - Teatro, juventud y rebelión',credits:2},
+  {name:'CBU 3 (CBCC) - Colombia, espacio y tiempo',credits:2}
+]},
+{ name:'3° semestre', credits:18, subjects:[
+  {name:'Juez e Interpretación Constitucional',credits:3},
+  {name:'Obligaciones I',credits:5},
+  {name:'Derecho Constitucional',credits:5},
+  {name:'Propiedad y Derechos Reales',credits:3},
+  {name:'CBU 4 (Libre) - Cantos de boga',credits:2},
+  {name:'Examen de Ciclo I',credits:0}
+]},
+{ name:'4° semestre', credits:18, subjects:[
+  {name:'Teoría Jurídica',credits:5},
+  {name:'Obligaciones II',credits:5},
+  {name:'Legislación y Políticas Públicas',credits:3},
+  {name:'Derecho Internacional',credits:3},
+  {name:'CBU 5 (Libre) - Quijote, dilemas universales',credits:2}
+]},
+{ name:'5° semestre', credits:18, subjects:[
+  {name:'Procedimientos',credits:4},
+  {name:'Relaciones Laborales',credits:3},
+  {name:'Derecho Comercial',credits:3},
+  {name:'Derecho Penal',credits:3},
+  {name:'Derecho Público Administrativo',credits:3},
+  {name:'CBU 6 (Libre) - Mentalidad de Crecimiento',credits:2}
+]},
+{ name:'6° semestre', credits:25, subjects:[
+  {name:'Protección Laboral',credits:3},
+  {name:'Pruebas',credits:3},
+  {name:'Contratos',credits:5},
+  {name:'Penal Especial',credits:3},
+  {name:'Argumentación en Procesos Civiles',credits:3},
+  {name:'CBU 7 (CBCP) - Comportamiento y Cerebro Humano',credits:2},
+  {name:'Curso Libre Elección 1',credits:3},
+  {name:'Curso Libre Elección 2',credits:3}
+]},
 { name:'7° semestre', credits:25, subjects:[
   {name:'Relaciones Familiares',credits:4},
   {name:'Sociedades',credits:3},
@@ -175,6 +225,24 @@ const semesters = [
   {name:'Materia Facultativa 1',credits:3},
   {name:'Materia Facultativa 2',credits:3},
   {name:'Curso Libre Elección 3',credits:3}
+]},
+{ name:'8° semestre', credits:24, subjects:[
+  {name:'Acciones Públicas',credits:3},
+  {name:'Títulos Valores',credits:3},
+  {name:'Derecho Comparado',credits:3},
+  {name:'Ética Profesional',credits:3},
+  {name:'Derecho Internacional Privado',credits:3},
+  {name:'Materia Facultativa 3',credits:3},
+  {name:'Materia Facultativa 4',credits:3},
+  {name:'Curso Libre Elección 4',credits:3}
+]},
+{ name:'9° semestre', credits:22, subjects:[
+  {name:'Opciones de Grado',credits:6},
+  {name:'Consultorio Jurídico I',credits:4},
+  {name:'Materia Facultativa 5',credits:3},
+  {name:'Materia Facultativa 6',credits:3},
+  {name:'Materia Facultativa 7',credits:3},
+  {name:'Materia Facultativa 8',credits:3}
 ]},
 { name:'10° semestre', credits:4, subjects:[
   {name:'Consultorio Jurídico II',credits:4},
@@ -212,7 +280,7 @@ function render(){
     sem.subjects.forEach(sub=>{
       const d=document.createElement('div');
       d.className='subject'+(approved[sub.name]?' checked':'');
-      d.textContent=`${sub.name} (${sub.credits})`;
+      d.textContent=\`\${sub.name} (\${sub.credits})\`;
       d.onclick=()=>toggle(sub.name);
       card.appendChild(d);
     });
