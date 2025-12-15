@@ -14,119 +14,59 @@ body{
   margin:0;
   padding:40px;
 }
-
-.header{
-  text-align:center;
-  margin-bottom:40px;
-}
-
-.header h1{
-  font-size:36px;
-  font-weight:600;
-  color:#000;
-}
-
-.header p{
-  font-size:18px;
-  color:#333;
-}
+.header{text-align:center;margin-bottom:40px;}
+.header h1{font-size:36px;font-weight:600;color:#000;}
+.header p{font-size:18px;color:#333;}
 
 .progress-container{
-  width:60%;
-  height:16px;
-  background:#e9d8ff;
-  border-radius:999px;
-  margin:12px auto;
-  overflow:hidden;
+  width:60%;height:16px;background:#e9d8ff;
+  border-radius:999px;margin:12px auto;overflow:hidden;
 }
-
 .progress-bar{
-  height:100%;
-  background:#8238FF;
-  width:0%;
-  border-radius:999px;
-  transition:0.3s;
+  height:100%;background:#8238FF;width:0%;
+  border-radius:999px;transition:0.3s;
 }
 
 .menu button{
-  margin:5px;
-  padding:8px 18px;
-  border-radius:20px;
-  border:none;
-  background:#e7d4ff;
-  cursor:pointer;
-  font-weight:500;
+  margin:5px;padding:8px 18px;border-radius:20px;
+  border:none;background:#e7d4ff;cursor:pointer;font-weight:500;
 }
-
-.menu button:last-child{
-  background:#e6e6e6;
-}
+.menu button:last-child{background:#e6e6e6;}
 
 .grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
-  gap:32px;
-  justify-items:center;
+  gap:32px;justify-items:center;
 }
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:600px){.grid{grid-template-columns:1fr;}}
 
-@media(max-width:900px){
-  .grid{grid-template-columns:repeat(2,1fr);}
-}
-@media(max-width:600px){
-  .grid{grid-template-columns:1fr;}
-}
-
-.grid .card:last-child{
-  grid-column:2/3;
-}
-
-@media(max-width:900px){
-  .grid .card:last-child{grid-column:auto;}
-}
+.grid .card:last-child{grid-column:2/3;}
+@media(max-width:900px){.grid .card:last-child{grid-column:auto;}}
 
 .card{
-  background:#fff;
-  border:2px solid #d6b6ff;
-  border-radius:22px;
-  padding:18px;
-  width:100%;
-  max-width:340px;
-}
-
-.card.complete{
-  background:#f1e8ff;
+  background:#fff;border:2px solid #d6b6ff;
+  border-radius:22px;padding:18px;
+  width:100%;max-width:340px;
 }
 
 .sem-title{
-  background:#8238FF;
-  color:#fff;
-  text-align:center;
-  padding:10px;
-  border-radius:14px;
-  font-weight:600;
-  font-size:20px;
-  margin-bottom:10px;
+  background:#8238FF;color:#fff;text-align:center;
+  padding:10px;border-radius:14px;
+  font-weight:600;font-size:20px;margin-bottom:10px;
 }
 
-.info-line{
-  text-align:center;
-  margin-bottom:10px;
-}
+.info-line{text-align:center;margin-bottom:10px;}
 
 .subject{
-  background:#f5ecff;
-  padding:10px 14px;
-  border-radius:14px;
-  margin-bottom:8px;
-  cursor:pointer;
-  color:#000;
+  background:#f5ecff;padding:10px 14px;
+  border-radius:14px;margin-bottom:8px;
+  cursor:pointer;color:#000;
 }
-
 .subject.checked{
   text-decoration:line-through;
   text-decoration-thickness:1px;
-  background:#e0c9ff;
-  color:#6b4fa3;
+  background:#e0c9ff;color:#6b4fa3;
 }
 </style>
 </head>
@@ -154,16 +94,13 @@ const TOTAL_CREDITS = 183;
 
 const semesters = [
 { name:'1° semestre',credits:17,subjects:[
-{name:'Lógica y Retórica',credits:3},
-{name:'Teoría General del Estado',credits:3},
-{name:'Introducción al Derecho',credits:4},
-{name:'Matemáticas',credits:3},
+{name:'Lógica y Retórica',3:3},{name:'Teoría General del Estado',credits:3},
+{name:'Introducción al Derecho',credits:4},{name:'Matemáticas',credits:3},
 {name:'Escritura Universitaria I',credits:2},
 {name:'CBU 1 (CBCO) - Colombia país de desigualdades',credits:2}
 ]},
 { name:'2° semestre',credits:18,subjects:[
-{name:'Hermenéutica Jurídica',credits:3},
-{name:'Derecho Romano',credits:3},
+{name:'Hermenéutica Jurídica',credits:3},{name:'Derecho Romano',credits:3},
 {name:'Sociología Jurídica',credits:3},
 {name:'Historia de las Instituciones Jurídicas',credits:3},
 {name:'Escritura Universitaria II',credits:2},
@@ -203,33 +140,30 @@ const semesters = [
 {name:'Curso Libre Elección 1',credits:3},
 {name:'Curso Libre Elección 2',credits:3}
 ]},
-{ name:'7° semestre',credits:25,subjects:[
+{ name:'7° semestre',credits:22,subjects:[
 {name:'Relaciones Familiares',credits:4},
 {name:'Sociedades',credits:3},
 {name:'Contratos Estatales',credits:3},
 {name:'Proceso Ejecutivo y Declarativo',credits:3},
 {name:'Argumentación en Procesos Penales',credits:3},
 {name:'Materia Facultativa 1',credits:3},
-{name:'Materia Facultativa 2',credits:3},
-{name:'Curso Libre Elección 3',credits:3}
+{name:'Materia Facultativa 2',credits:3}
 ]},
-{ name:'8° semestre',credits:24,subjects:[
+{ name:'8° semestre',credits:21,subjects:[
 {name:'Acciones Públicas',credits:3},
 {name:'Títulos Valores',credits:3},
 {name:'Derecho Comparado',credits:3},
 {name:'Ética Profesional',credits:3},
 {name:'Derecho Internacional Privado',credits:3},
 {name:'Materia Facultativa 3',credits:3},
-{name:'Materia Facultativa 4',credits:3},
-{name:'Curso Libre Elección 4',credits:3}
+{name:'Materia Facultativa 4',credits:3}
 ]},
-{ name:'9° semestre',credits:22,subjects:[
+{ name:'9° semestre',credits:19,subjects:[
 {name:'Opciones de Grado',credits:6},
 {name:'Consultorio Jurídico I',credits:4},
 {name:'Materia Facultativa 5',credits:3},
 {name:'Materia Facultativa 6',credits:3},
-{name:'Materia Facultativa 7',credits:3},
-{name:'Materia Facultativa 8',credits:3}
+{name:'Curso Libre Elección 3',credits:3}
 ]},
 { name:'10° semestre',credits:4,subjects:[
 {name:'Consultorio Jurídico II',credits:4},
@@ -237,27 +171,24 @@ const semesters = [
 ]}
 ];
 
-let approved = JSON.parse(localStorage.getItem('malla-aprobadas')||'{}');
-let filter='all';
+let approved=JSON.parse(localStorage.getItem('malla-aprobadas')||'{}');
 
 function toggle(n){
   approved[n]=!approved[n];
   localStorage.setItem('malla-aprobadas',JSON.stringify(approved));
   render();
 }
-function setFilter(f){filter=f;render();}
+function setFilter(){render();}
 function resetAll(){approved={};localStorage.removeItem('malla-aprobadas');render();}
 function totalApproved(){
   return semesters.reduce((t,s)=>t+s.subjects.reduce((a,b)=>a+(approved[b.name]?b.credits:0),0),0);
 }
-
 function render(){
   const grid=document.getElementById('grid');
   grid.innerHTML='';
   const total=totalApproved();
   document.getElementById('approvedCredits').textContent=total;
   document.getElementById('progress').style.width=(total/TOTAL_CREDITS*100)+'%';
-
   semesters.forEach(sem=>{
     const card=document.createElement('div');
     card.className='card';
