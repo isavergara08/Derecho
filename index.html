@@ -5,7 +5,6 @@
 <title>Plan de estudios – Derecho</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
-<!-- Poppins -->
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
@@ -77,6 +76,14 @@ body {
 }
 @media (max-width: 600px) {
   .grid { grid-template-columns: 1fr; }
+}
+
+/* 🔥 ESTO CENTRA EL 10° SEMESTRE */
+.grid .card:last-child {
+  grid-column: 2 / 3;
+}
+@media (max-width: 900px) {
+  .grid .card:last-child { grid-column: auto; }
 }
 
 .card {
@@ -159,85 +166,18 @@ body {
 const TOTAL_CREDITS = 180;
 
 const semesters = [
-{ name:'1° semestre', credits:17, subjects:[
-  {name:'Lógica y Retórica',credits:3},
-  {name:'Teoría General del Estado',credits:3},
-  {name:'Introducción al Derecho',credits:4},
-  {name:'Matemáticas',credits:3},
-  {name:'Escritura Universitaria I',credits:2},
-  {name:'CBU 1 (CBCO) - Colombia país de desigualdades',credits:2}
-]},
-{ name:'2° semestre', credits:18, subjects:[
-  {name:'Hermenéutica Jurídica',credits:3},
-  {name:'Derecho Romano',credits:3},
-  {name:'Sociología Jurídica',credits:3},
-  {name:'Historia de las Instituciones Jurídicas',credits:3},
-  {name:'Escritura Universitaria II',credits:2},
-  {name:'CBU 2 (CBCA) - Teatro, juventud y rebelión',credits:2},
-  {name:'CBU 3 (CBCC) - Colombia, espacio y tiempo',credits:2}
-]},
-{ name:'3° semestre', credits:18, subjects:[
-  {name:'Juez e Interpretación Constitucional',credits:3},
-  {name:'Obligaciones I',credits:5},
-  {name:'Derecho Constitucional',credits:5},
-  {name:'Propiedad y Derechos Reales',credits:3},
-  {name:'CBU 4 (Libre) - Cantos de boga',credits:2},
-  {name:'Examen de Ciclo I',credits:0}
-]},
-{ name:'4° semestre', credits:18, subjects:[
-  {name:'Teoría Jurídica',credits:5},
-  {name:'Obligaciones II',credits:5},
-  {name:'Legislación y Políticas Públicas',credits:3},
-  {name:'Derecho Internacional',credits:3},
-  {name:'CBU 5 (Libre) - Quijote, dilemas universales',credits:2}
-]},
-{ name:'5° semestre', credits:18, subjects:[
-  {name:'Procedimientos',credits:4},
-  {name:'Relaciones Laborales',credits:3},
-  {name:'Derecho Comercial',credits:3},
-  {name:'Derecho Penal',credits:3},
-  {name:'Derecho Público Administrativo',credits:3},
-  {name:'CBU 6 (Libre) - Mentalidad de Crecimiento',credits:2}
-]},
-{ name:'6° semestre', credits:25, subjects:[
-  {name:'Protección Laboral',credits:3},
-  {name:'Pruebas',credits:3},
-  {name:'Contratos',credits:5},
-  {name:'Penal Especial',credits:3},
-  {name:'Argumentación en Procesos Civiles',credits:3},
-  {name:'CBU 7 (CBCP) - Comportamiento y Cerebro Humano',credits:2},
-  {name:'Curso Libre Elección 1',credits:3},
-  {name:'Curso Libre Elección 2',credits:3}
-]},
-{ name:'7° semestre', credits:22, subjects:[
+{ name:'7° semestre', credits:25, subjects:[
   {name:'Relaciones Familiares',credits:4},
   {name:'Sociedades',credits:3},
   {name:'Contratos Estatales',credits:3},
   {name:'Proceso Ejecutivo y Declarativo',credits:3},
   {name:'Argumentación en Procesos Penales',credits:3},
   {name:'Materia Facultativa 1',credits:3},
+  {name:'Materia Facultativa 2',credits:3},
   {name:'Curso Libre Elección 3',credits:3}
 ]},
-{ name:'8° semestre', credits:24, subjects:[
-  {name:'Acciones Públicas',credits:3},
-  {name:'Títulos Valores',credits:3},
-  {name:'Derecho Comparado',credits:3},
-  {name:'Ética Profesional',credits:3},
-  {name:'Derecho Internacional Privado',credits:3},
-  {name:'Materia Facultativa 2',credits:3},
-  {name:'Materia Facultativa 3',credits:3},
-  {name:'Curso Libre Elección 4',credits:3}
-]},
-{ name:'9° semestre', credits:22, subjects:[
-  {name:'Opciones de Grado',credits:6},
-  {name:'Consultorio Jurídico I',credits:4},
-  {name:'Materia Facultativa 4',credits:3},
-  {name:'Materia Facultativa 5',credits:3},
-  {name:'Materia Facultativa 6',credits:3},
-  {name:'Materia Facultativa 7',credits:3}
-]},
-{ name:'10° semestre', credits:10, subjects:[
-  {name:'Consultorio Jurídico II',credits:10},
+{ name:'10° semestre', credits:4, subjects:[
+  {name:'Consultorio Jurídico II',credits:4},
   {name:'Examen de Facultad',credits:0}
 ]}
 ];
@@ -245,21 +185,27 @@ const semesters = [
 let approved = JSON.parse(localStorage.getItem('malla-aprobadas') || '{}');
 let filter='all';
 
-function toggle(name){approved[name]=!approved[name];localStorage.setItem('malla-aprobadas',JSON.stringify(approved));render();}
+function toggle(name){
+  approved[name]=!approved[name];
+  localStorage.setItem('malla-aprobadas',JSON.stringify(approved));
+  render();
+}
 function setFilter(f){filter=f;render();}
 function resetAll(){approved={};localStorage.removeItem('malla-aprobadas');render();}
-function totalApproved(){return semesters.reduce((t,s)=>t+s.subjects.reduce((a,b)=>a+(approved[b.name]?b.credits:0),0),0);}
+function totalApproved(){
+  return semesters.reduce((t,s)=>t+s.subjects.reduce((a,b)=>a+(approved[b.name]?b.credits:0),0),0);
+}
 function render(){
   const grid=document.getElementById('grid');
   grid.innerHTML='';
   const total=totalApproved();
   document.getElementById('approvedCredits').textContent=total;
   document.getElementById('progress').style.width=(total/TOTAL_CREDITS*100)+'%';
+
   semesters.forEach(sem=>{
     const card=document.createElement('div');
-    card.className='card';
     const complete=sem.subjects.every(s=>approved[s.name]||s.credits===0);
-    if(complete) card.classList.add('complete');
+    card.className='card'+(complete?' complete':'');
     card.innerHTML=`<div class="sem-title">${sem.name}</div>
       <div class="info-line">${complete?'<div class="tag">COMPLETO</div>':''}
       <span>${sem.subjects.reduce((a,b)=>a+(approved[b.name]?b.credits:0),0)} / ${sem.credits} créditos</span></div>`;
