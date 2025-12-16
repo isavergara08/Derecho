@@ -2,69 +2,176 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Plan de estudios – Derecho (editable)</title>
+<title>Malla Derecho – Editable</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+
 <style>
-body{font-family:'Poppins',sans-serif;background:linear-gradient(to bottom,#f7efff,#fcfaff);margin:0;padding:40px}
-.header{text-align:center;margin-bottom:40px}
-.header h1{font-size:36px;font-weight:600;margin-bottom:5px}
-.header p{font-size:18px;color:#333}
-.progress-container{width:60%;height:16px;background:#f2dfff;border-radius:999px;margin:15px auto;overflow:hidden}
-.progress-bar{height:100%;background:#8238FF;width:0%;transition:width .3s;border-radius:999px}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:35px;justify-items:center}
-@media(max-width:900px){.grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:600px){.grid{grid-template-columns:1fr}}
-.card{background:#faf4ff;border-radius:25px;padding:20px;border:2px solid #d9b8ff;width:100%;max-width:350px}
-.sem-title{background:#8238FF;color:#fff;padding:12px 0;border-radius:16px;margin-bottom:10px;font-size:22px;font-weight:600;text-align:center}
-.info-line{text-align:center;margin-bottom:12px}
-.subject{padding:12px;margin-bottom:10px;border-radius:18px;background:#f6edff;font-size:15px;cursor:grab;user-select:none}
-.subject.dragging{opacity:.4}
+body{
+  font-family:'Poppins',sans-serif;
+  background:#f7efff;
+  padding:30px;
+}
+
+.header{text-align:center;margin-bottom:30px;}
+.progress-container{width:60%;margin:10px auto;height:16px;background:#e5d3ff;border-radius:999px;}
+.progress-bar{height:100%;background:#8238FF;width:0%;border-radius:999px;}
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:25px;
+}
+
+.card{
+  background:#faf4ff;
+  border:2px solid #d9b8ff;
+  border-radius:22px;
+  padding:15px;
+}
+
+.sem-title{
+  background:#8238FF;
+  color:white;
+  padding:10px;
+  border-radius:14px;
+  text-align:center;
+  font-weight:600;
+}
+
+.info-line{text-align:center;margin:10px 0;}
+
+.subject{
+  background:#f1e6ff;
+  padding:10px;
+  border-radius:16px;
+  margin-bottom:8px;
+  cursor:grab;
+}
+
+.subject.checked{
+  background:#dcc3ff;
+  text-decoration:line-through;
+  color:#6f4aa8;
+}
+
+.subject.dragging{opacity:.4;}
 </style>
 </head>
+
 <body>
+
 <div class="header">
-<h1>Plan de estudios – Derecho</h1>
-<p>Créditos aprobados: <span id="approvedCredits">0</span> / 183</p>
-<div class="progress-container"><div id="progress" class="progress-bar"></div></div>
+  <h1>Malla Derecho</h1>
+  <p>Créditos aprobados: <span id="approvedCredits">0</span> / 183</p>
+  <div class="progress-container">
+    <div id="progress" class="progress-bar"></div>
+  </div>
 </div>
+
 <div id="grid" class="grid"></div>
+
 <script>
-const TOTAL_CREDITS=183;
-let semesters=JSON.parse(localStorage.getItem('malla-semestres'))||[
-{name:'1° semestre',subjects:[{name:'Lógica y Retórica',credits:3},{name:'Teoría General del Estado',credits:3},{name:'Introducción al Derecho',credits:4},{name:'Matemáticas',credits:3},{name:'Escritura Universitaria I',credits:2},{name:'CBU 1 - Colombia país de desigualdades',credits:2}]},
-{name:'2° semestre',subjects:[{name:'Hermenéutica Jurídica',credits:3},{name:'Derecho Romano',credits:3},{name:'Sociología Jurídica',credits:3},{name:'Historia de las Instituciones Jurídicas',credits:3},{name:'Escritura Universitaria II',credits:2},{name:'CBU 2 - Teatro, juventud y rebelión',credits:2},{name:'CBU 3 - Colombia, espacio y tiempo',credits:2}]},
-{name:'3° semestre',subjects:[{name:'Juez e Interpretación Constitucional',credits:3},{name:'Obligaciones I',credits:5},{name:'Derecho Constitucional',credits:5},{name:'Propiedad y Derechos Reales',credits:3},{name:'CBU 4 - Cantos de boga',credits:2},{name:'Curso Libre Elección 1',credits:3}]},
-{name:'4° semestre',subjects:[{name:'Teoría Jurídica',credits:5},{name:'Obligaciones II',credits:5},{name:'Legislación y Políticas Públicas',credits:3},{name:'Derecho Internacional',credits:3},{name:'CBU 5 - Quijote, dilemas universales',credits:2}]},
-{name:'5° semestre',subjects:[{name:'Procedimientos',credits:4},{name:'Relaciones Laborales',credits:3},{name:'Derecho Comercial',credits:3},{name:'Derecho Penal',credits:3},{name:'Derecho Público Administrativo',credits:3},{name:'CBU 6 - Mentalidad de Crecimiento',credits:2}]},
-{name:'6° semestre',subjects:[{name:'Protección Laboral',credits:3},{name:'Pruebas',credits:3},{name:'Contratos',credits:5},{name:'Penal Especial',credits:3},{name:'Argumentación en Procesos Civiles',credits:3},{name:'Materia Facultativa 1',credits:3},{name:'CBU 7 - Historia del sexo',credits:2}]},
-{name:'7° semestre',subjects:[{name:'Relaciones Familiares',credits:4},{name:'Sociedades',credits:3},{name:'Contratos Estatales',credits:3},{name:'Proceso Ejecutivo y Declarativo',credits:3},{name:'Argumentación en Procesos Penales',credits:3},{name:'Materia Facultativa 2',credits:3}]},
-{name:'8° semestre',subjects:[{name:'Acciones Públicas',credits:3},{name:'Títulos Valores',credits:3},{name:'Derecho Comparado',credits:3},{name:'Ética Profesional',credits:3},{name:'Derecho Internacional Privado',credits:3},{name:'Materia Facultativa 3',credits:3},{name:'Curso Libre Elección 2',credits:3}]},
-{name:'9° semestre',subjects:[{name:'Opciones de Grado',credits:6},{name:'Consultorio Jurídico I',credits:4},{name:'Materia Facultativa 4',credits:3},{name:'Materia Facultativa 5',credits:3},{name:'Curso Libre Elección 3',credits:3},{name:'Curso Libre Elección 4',credits:3}]},
-{name:'10° semestre',subjects:[{name:'Consultorio Jurídico II',credits:4},{name:'Materia Facultativa 6',credits:3}]}
+const TOTAL = 183;
+
+let semesters = JSON.parse(localStorage.getItem('malla')) || [
+ {name:'6° semestre',subjects:[
+  {name:'Protección Laboral',credits:3,done:false},
+  {name:'Pruebas',credits:3,done:false},
+  {name:'Contratos',credits:5,done:false},
+  {name:'Penal Especial',credits:3,done:false},
+  {name:'Argumentación Civil',credits:3,done:false},
+  {name:'Facultativa 1',credits:3,done:false},
+  {name:'CBU 7',credits:2,done:false}
+ ]}
 ];
+
 let dragged=null;
+
 function render(){
-const grid=document.getElementById('grid');grid.innerHTML='';
-let total=0;
-semesters.forEach((sem,i)=>{
-const card=document.createElement('div');card.className='card';
-const semCredits=sem.subjects.reduce((s,a)=>s+a.credits,0);total+=semCredits;
-card.innerHTML=`<div class="sem-title">${sem.name}</div><div class="info-line">${semCredits} créditos</div>`;
-const list=document.createElement('div');list.ondragover=e=>e.preventDefault();list.ondrop=()=>{if(dragged){sem.subjects.push(dragged.sub);semesters[dragged.from].subjects.splice(dragged.index,1);dragged=null;save();render();}};
-sem.subjects.forEach((sub,j)=>{
-const el=document.createElement('div');el.className='subject';el.draggable=true;el.textContent=`${sub.name} (${sub.credits})`;
-el.ondragstart=()=>{dragged={sub,from:i,index:j};el.classList.add('dragging')};
-el.ondragend=()=>el.classList.remove('dragging');
-list.appendChild(el);
-});
-card.appendChild(list);grid.appendChild(card);
-});
-document.getElementById('approvedCredits').textContent=total;
-document.getElementById('progress').style.width=(total/TOTAL_CREDITS*100)+'%';
+ const grid=document.getElementById('grid');
+ grid.innerHTML='';
+ let approved=0;
+
+ semesters.forEach((sem,si)=>{
+  const card=document.createElement('div');
+  card.className='card';
+
+  const credits=sem.subjects.reduce((a,b)=>a+b.credits,0);
+  card.innerHTML=`<div class="sem-title">${sem.name}</div>
+                  <div class="info-line">${credits} créditos</div>`;
+
+  const list=document.createElement('div');
+
+  list.ondragover=e=>{
+    e.preventDefault();
+    const after=getAfter(list,e.clientY);
+    if(after==null) list.appendChild(dragged);
+    else list.insertBefore(dragged,after);
+  };
+
+  list.ondrop=()=>{
+    save();
+    render();
+  };
+
+  sem.subjects.forEach((sub,ci)=>{
+    if(sub.done) approved+=sub.credits;
+
+    const div=document.createElement('div');
+    div.className='subject'+(sub.done?' checked':'');
+    div.textContent=`${sub.name} (${sub.credits})`;
+    div.draggable=true;
+
+    div.onclick=()=>{
+      sub.done=!sub.done;
+      save(); render();
+    };
+
+    div.ondragstart=()=>{
+      dragged=div;
+      dragged.dataset.fromSem=si;
+      dragged.dataset.index=ci;
+      div.classList.add('dragging');
+    };
+
+    div.ondragend=()=>{
+      div.classList.remove('dragging');
+      const from=dragged.dataset.fromSem;
+      const idx=dragged.dataset.index;
+      const to=si;
+      const newIdx=[...list.children].indexOf(div);
+
+      const moved=semesters[from].subjects.splice(idx,1)[0];
+      semesters[to].subjects.splice(newIdx,0,moved);
+      save();
+      render();
+    };
+
+    list.appendChild(div);
+  });
+
+  card.appendChild(list);
+  grid.appendChild(card);
+ });
+
+ document.getElementById('approvedCredits').textContent=approved;
+ document.getElementById('progress').style.width=(approved/TOTAL*100)+'%';
 }
-function save(){localStorage.setItem('malla-semestres',JSON.stringify(semesters));}
+
+function getAfter(container,y){
+ return [...container.children].find(el=>{
+  const box=el.getBoundingClientRect();
+  return y < box.top + box.height/2;
+ });
+}
+
+function save(){
+ localStorage.setItem('malla',JSON.stringify(semesters));
+}
+
 render();
 </script>
+
 </body>
 </html>
