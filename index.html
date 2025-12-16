@@ -14,13 +14,27 @@ body{
 }
 
 .header{text-align:center;margin-bottom:30px;}
-.progress-container{width:60%;margin:10px auto;height:16px;background:#e5d3ff;border-radius:999px;}
-.progress-bar{height:100%;background:#8238FF;width:0%;border-radius:999px;}
 
+.progress-container{
+  width:60%;
+  margin:10px auto;
+  height:16px;
+  background:#e5d3ff;
+  border-radius:999px;
+}
+.progress-bar{
+  height:100%;
+  background:#8238FF;
+  width:0%;
+  border-radius:999px;
+}
+
+/* 👉 SOLO 2 POR FILA */
 .grid{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
-  gap:25px;
+  grid-template-columns:repeat(2, minmax(300px,1fr));
+  gap:30px;
+  justify-content:center;
 }
 
 .card{
@@ -39,7 +53,11 @@ body{
   font-weight:600;
 }
 
-.info-line{text-align:center;margin:10px 0;font-size:14px;}
+.info-line{
+  text-align:center;
+  margin:10px 0;
+  font-size:14px;
+}
 
 .subject{
   background:#f1e6ff;
@@ -76,46 +94,6 @@ body{
 const TOTAL = 183;
 
 let semesters = JSON.parse(localStorage.getItem('malla')) || [
- {name:'1° semestre',subjects:[
-  {name:'Lógica y Retórica',credits:3,done:false},
-  {name:'Teoría General del Estado',credits:3,done:false},
-  {name:'Introducción al Derecho',credits:4,done:false},
-  {name:'Matemáticas',credits:3,done:false},
-  {name:'Escritura Universitaria I',credits:2,done:false},
-  {name:'CBU 1 – Colombia país de desigualdades',credits:2,done:false}
- ]},
- {name:'2° semestre',subjects:[
-  {name:'Hermenéutica Jurídica',credits:3,done:false},
-  {name:'Derecho Romano',credits:3,done:false},
-  {name:'Sociología Jurídica',credits:3,done:false},
-  {name:'Historia de las Instituciones Jurídicas',credits:3,done:false},
-  {name:'Escritura Universitaria II',credits:2,done:false},
-  {name:'CBU 2 – Teatro, juventud y rebelión',credits:2,done:false},
-  {name:'CBU 3 – Colombia, espacio y tiempo',credits:2,done:false}
- ]},
- {name:'3° semestre',subjects:[
-  {name:'Juez e Interpretación Constitucional',credits:3,done:false},
-  {name:'Obligaciones I',credits:5,done:false},
-  {name:'Derecho Constitucional',credits:5,done:false},
-  {name:'Propiedad y Derechos Reales',credits:3,done:false},
-  {name:'CBU 4 – Cantos de boga',credits:2,done:false},
-  {name:'Curso Libre Elección 1',credits:3,done:false}
- ]},
- {name:'4° semestre',subjects:[
-  {name:'Teoría Jurídica',credits:5,done:false},
-  {name:'Obligaciones II',credits:5,done:false},
-  {name:'Legislación y Políticas Públicas',credits:3,done:false},
-  {name:'Derecho Internacional',credits:3,done:false},
-  {name:'CBU 5 – Quijote, dilemas universales',credits:2,done:false}
- ]},
- {name:'5° semestre',subjects:[
-  {name:'Procedimientos',credits:4,done:false},
-  {name:'Relaciones Laborales',credits:3,done:false},
-  {name:'Derecho Comercial',credits:3,done:false},
-  {name:'Derecho Penal',credits:3,done:false},
-  {name:'Derecho Público Administrativo',credits:3,done:false},
-  {name:'CBU 6 – Mentalidad de Crecimiento',credits:2,done:false}
- ]},
  {name:'6° semestre',subjects:[
   {name:'Protección Laboral',credits:3,done:false},
   {name:'Pruebas',credits:3,done:false},
@@ -132,58 +110,57 @@ let semesters = JSON.parse(localStorage.getItem('malla')) || [
   {name:'Argumentación Procesos Penales',credits:3,done:false},
   {name:'CBU 7 – Historia del Sexo',credits:2,done:false},
   {name:'Materia Facultativa 2',credits:3,done:false}
- ]},
- {name:'8° semestre',subjects:[
-  {name:'Acciones Públicas',credits:3,done:false},
-  {name:'Títulos Valores',credits:3,done:false},
-  {name:'Derecho Comparado',credits:3,done:false},
-  {name:'Ética Profesional',credits:3,done:false},
-  {name:'Derecho Internacional Privado',credits:3,done:false},
-  {name:'Materia Facultativa 3',credits:3,done:false},
-  {name:'Curso Libre Elección 2',credits:3,done:false}
- ]},
- {name:'9° semestre',subjects:[
-  {name:'Opciones de Grado',credits:6,done:false},
-  {name:'Consultorio Jurídico I',credits:4,done:false},
-  {name:'Materia Facultativa 4',credits:3,done:false},
-  {name:'Materia Facultativa 5',credits:3,done:false},
-  {name:'Curso Libre Elección 3',credits:3,done:false}
- ]},
- {name:'10° semestre',subjects:[
-  {name:'Consultorio Jurídico II',credits:4,done:false},
-  {name:'Materia Facultativa 6',credits:3,done:false}
  ]}
 ];
 
-let dragged=null;
+let draggedData = null;
 
 function render(){
  const grid=document.getElementById('grid');
  grid.innerHTML='';
- let approved=0;
+ let approvedTotal=0;
 
  semesters.forEach((sem,si)=>{
   const card=document.createElement('div');
   card.className='card';
 
-  const totalCredits=sem.subjects.reduce((a,b)=>a+b.credits,0);
-  card.innerHTML=`<div class="sem-title">${sem.name}</div>
-                  <div class="info-line">${totalCredits} créditos</div>`;
+  const semApproved = sem.subjects
+    .filter(s=>s.done)
+    .reduce((a,b)=>a+b.credits,0);
+
+  const semTotal = sem.subjects
+    .reduce((a,b)=>a+b.credits,0);
+
+  approvedTotal += semApproved;
+
+  card.innerHTML=`
+    <div class="sem-title">${sem.name}</div>
+    <div class="info-line">
+      ${semApproved} aprobados / ${semTotal} totales
+    </div>
+  `;
 
   const list=document.createElement('div');
 
   list.ondragover=e=>{
     e.preventDefault();
     const after=getAfter(list,e.clientY);
-    if(after==null) list.appendChild(dragged);
-    else list.insertBefore(dragged,after);
+    if(after==null) list.appendChild(draggedData.el);
+    else list.insertBefore(draggedData.el,after);
   };
 
-  list.ondrop=()=>{ save(); render(); };
+  list.ondrop=()=>{
+    const fromSem = draggedData.fromSem;
+    const fromIdx = draggedData.fromIdx;
+    const toIdx = [...list.children].indexOf(draggedData.el);
+
+    const moved = semesters[fromSem].subjects.splice(fromIdx,1)[0];
+    sem.subjects.splice(toIdx,0,moved);
+
+    save(); render();
+  };
 
   sem.subjects.forEach((sub,ci)=>{
-    if(sub.done) approved+=sub.credits;
-
     const div=document.createElement('div');
     div.className='subject'+(sub.done?' checked':'');
     div.textContent=`${sub.name} (${sub.credits})`;
@@ -195,21 +172,16 @@ function render(){
     };
 
     div.ondragstart=()=>{
-      dragged=div;
-      dragged.dataset.from=si;
-      dragged.dataset.index=ci;
+      draggedData={
+        el:div,
+        fromSem:si,
+        fromIdx:ci
+      };
       div.classList.add('dragging');
     };
 
     div.ondragend=()=>{
       div.classList.remove('dragging');
-      const from=dragged.dataset.from;
-      const idx=dragged.dataset.index;
-      const to=si;
-      const newIdx=[...list.children].indexOf(div);
-      const moved=semesters[from].subjects.splice(idx,1)[0];
-      semesters[to].subjects.splice(newIdx,0,moved);
-      save(); render();
     };
 
     list.appendChild(div);
@@ -219,8 +191,8 @@ function render(){
   grid.appendChild(card);
  });
 
- document.getElementById('approvedCredits').textContent=approved;
- document.getElementById('progress').style.width=(approved/TOTAL*100)+'%';
+ document.getElementById('approvedCredits').textContent=approvedTotal;
+ document.getElementById('progress').style.width=(approvedTotal/TOTAL*100)+'%';
 }
 
 function getAfter(container,y){
