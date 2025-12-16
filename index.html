@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<title>Malla Derecho – Editable</title>
+<title>Plan de estudios – Derecho</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
@@ -29,12 +29,21 @@ body{
   border-radius:999px;
 }
 
-/* 👉 SOLO 2 POR FILA */
+.menu{text-align:center;margin-top:15px;}
+.menu button{
+  padding:8px 18px;
+  border:none;
+  border-radius:20px;
+  background:#e8d4ff;
+  cursor:pointer;
+  font-family:'Poppins';
+}
+
+/* 🔥 GRID CONTROLADO */
 .grid{
   display:grid;
-  grid-template-columns:repeat(2, minmax(300px,1fr));
+  grid-template-columns:repeat(3, 1fr);
   gap:30px;
-  justify-content:center;
 }
 
 .card{
@@ -42,6 +51,10 @@ body{
   border:2px solid #d9b8ff;
   border-radius:22px;
   padding:15px;
+}
+
+.card.sem-10{
+  grid-column:2 / 3;
 }
 
 .sem-title{
@@ -81,10 +94,13 @@ body{
 <body>
 
 <div class="header">
-  <h1>Mi Malla de Derecho</h1>
+  <h1>Plan de estudios – Derecho</h1>
   <p>Créditos aprobados: <span id="approvedCredits">0</span> / 183</p>
   <div class="progress-container">
     <div id="progress" class="progress-bar"></div>
+  </div>
+  <div class="menu">
+    <button onclick="resetAll()">Reiniciar</button>
   </div>
 </div>
 
@@ -94,26 +110,40 @@ body{
 const TOTAL = 183;
 
 let semesters = JSON.parse(localStorage.getItem('malla')) || [
+ {name:'1° semestre',subjects:[
+  {name:'Introducción al Derecho',credits:4,done:false},
+  {name:'Teoría General del Estado',credits:3,done:false}
+ ]},
+ {name:'2° semestre',subjects:[
+  {name:'Derecho Romano',credits:3,done:false}
+ ]},
+ {name:'3° semestre',subjects:[
+  {name:'Derecho Constitucional',credits:5,done:false}
+ ]},
+ {name:'4° semestre',subjects:[
+  {name:'Obligaciones I',credits:5,done:false}
+ ]},
+ {name:'5° semestre',subjects:[
+  {name:'Derecho Penal',credits:3,done:false}
+ ]},
  {name:'6° semestre',subjects:[
-  {name:'Protección Laboral',credits:3,done:false},
-  {name:'Pruebas',credits:3,done:false},
-  {name:'Contratos',credits:5,done:false},
-  {name:'Penal Especial',credits:3,done:false},
-  {name:'Argumentación Procesos Civiles',credits:3,done:false},
-  {name:'Materia Facultativa 1',credits:3,done:false}
+  {name:'Contratos',credits:5,done:false}
  ]},
  {name:'7° semestre',subjects:[
-  {name:'Relaciones Familiares',credits:4,done:false},
-  {name:'Sociedades',credits:3,done:false},
-  {name:'Contratos Estatales',credits:3,done:false},
-  {name:'Proceso Ejecutivo y Declarativo',credits:3,done:false},
-  {name:'Argumentación Procesos Penales',credits:3,done:false},
-  {name:'CBU 7 – Historia del Sexo',credits:2,done:false},
-  {name:'Materia Facultativa 2',credits:3,done:false}
+  {name:'Sociedades',credits:3,done:false}
+ ]},
+ {name:'8° semestre',subjects:[
+  {name:'Ética Profesional',credits:3,done:false}
+ ]},
+ {name:'9° semestre',subjects:[
+  {name:'Consultorio Jurídico I',credits:4,done:false}
+ ]},
+ {name:'10° semestre',subjects:[
+  {name:'Consultorio Jurídico II',credits:4,done:false}
  ]}
 ];
 
-let draggedData = null;
+let dragData=null;
 
 function render(){
  const grid=document.getElementById('grid');
@@ -122,22 +152,15 @@ function render(){
 
  semesters.forEach((sem,si)=>{
   const card=document.createElement('div');
-  card.className='card';
+  card.className='card'+(sem.name.startsWith('10')?' sem-10':'');
 
-  const semApproved = sem.subjects
-    .filter(s=>s.done)
-    .reduce((a,b)=>a+b.credits,0);
-
-  const semTotal = sem.subjects
-    .reduce((a,b)=>a+b.credits,0);
-
-  approvedTotal += semApproved;
+  const approved = sem.subjects.filter(s=>s.done).reduce((a,b)=>a+b.credits,0);
+  const total = sem.subjects.reduce((a,b)=>a+b.credits,0);
+  approvedTotal+=approved;
 
   card.innerHTML=`
     <div class="sem-title">${sem.name}</div>
-    <div class="info-line">
-      ${semApproved} aprobados / ${semTotal} totales
-    </div>
+    <div class="info-line">${approved} / ${total} créditos</div>
   `;
 
   const list=document.createElement('div');
@@ -145,18 +168,14 @@ function render(){
   list.ondragover=e=>{
     e.preventDefault();
     const after=getAfter(list,e.clientY);
-    if(after==null) list.appendChild(draggedData.el);
-    else list.insertBefore(draggedData.el,after);
+    if(after==null) list.appendChild(dragData.el);
+    else list.insertBefore(dragData.el,after);
   };
 
   list.ondrop=()=>{
-    const fromSem = draggedData.fromSem;
-    const fromIdx = draggedData.fromIdx;
-    const toIdx = [...list.children].indexOf(draggedData.el);
-
-    const moved = semesters[fromSem].subjects.splice(fromIdx,1)[0];
-    sem.subjects.splice(toIdx,0,moved);
-
+    const moved=semesters[dragData.fromSem].subjects.splice(dragData.fromIdx,1)[0];
+    const newIdx=[...list.children].indexOf(dragData.el);
+    sem.subjects.splice(newIdx,0,moved);
     save(); render();
   };
 
@@ -166,23 +185,14 @@ function render(){
     div.textContent=`${sub.name} (${sub.credits})`;
     div.draggable=true;
 
-    div.onclick=()=>{
-      sub.done=!sub.done;
-      save(); render();
-    };
+    div.onclick=()=>{sub.done=!sub.done; save(); render();};
 
     div.ondragstart=()=>{
-      draggedData={
-        el:div,
-        fromSem:si,
-        fromIdx:ci
-      };
+      dragData={el:div,fromSem:si,fromIdx:ci};
       div.classList.add('dragging');
     };
 
-    div.ondragend=()=>{
-      div.classList.remove('dragging');
-    };
+    div.ondragend=()=>div.classList.remove('dragging');
 
     list.appendChild(div);
   });
@@ -202,9 +212,8 @@ function getAfter(container,y){
  });
 }
 
-function save(){
- localStorage.setItem('malla',JSON.stringify(semesters));
-}
+function save(){localStorage.setItem('malla',JSON.stringify(semesters));}
+function resetAll(){localStorage.removeItem('malla'); location.reload();}
 
 render();
 </script>
