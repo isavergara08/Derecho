@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>Plan de estudios – Derecho</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
@@ -11,15 +12,24 @@
 
 body{
   font-family:'Poppins',sans-serif;
-  font-size:15px;
+  font-size:16px;
   background:linear-gradient(#f7efff,#fcfaff);
   padding:30px;
+  margin:0;
 }
 
-h1{font-size:32px;margin-bottom:6px}
-p{font-size:17px}
+.header{text-align:center;margin-bottom:35px;}
 
-.header{text-align:center;margin-bottom:30px;}
+h1{
+  font-size:34px;
+  font-weight:600;
+  margin-bottom:6px;
+}
+
+.header p{
+  font-size:18px;
+  margin:6px 0 10px;
+}
 
 .progress-container{
   width:60%;
@@ -35,57 +45,59 @@ p{font-size:17px}
   border-radius:999px;
 }
 
-.menu{text-align:center;margin-top:15px;}
+.menu{margin-top:15px;}
 .menu button{
-  font-size:15px;
-  padding:8px 18px;
+  padding:9px 20px;
   border:none;
   border-radius:20px;
   background:#e8d4ff;
   cursor:pointer;
+  font-size:15px;
 }
 
 /* GRID */
 .grid{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
-  gap:30px;
+  grid-template-columns:repeat(3, 1fr);
+  gap:32px;
 }
 
 .card{
   background:#faf4ff;
   border:2px solid #d9b8ff;
-  border-radius:22px;
-  padding:16px;
+  border-radius:24px;
+  padding:18px;
 }
 
-.card.sem-10{grid-column:2/3}
+.card.sem-10{
+  grid-column:2 / 3;
+}
 
 .sem-title{
-  font-size:19px;
   background:#8238FF;
   color:white;
-  padding:10px;
-  border-radius:14px;
+  padding:12px;
+  border-radius:16px;
   text-align:center;
+  font-size:20px;
   font-weight:600;
 }
 
 .info-line{
   text-align:center;
-  margin:10px 0;
-  font-size:15px;
-  font-weight:600; /* 🔥 vuelve la negrita */
+  margin:14px 0;
+  font-size:16px;
+  font-weight:600; /* SOLO aquí la negrita */
 }
 
 .subject{
-  font-size:15px;
   background:#f1e6ff;
-  padding:11px;
-  border-radius:16px;
-  margin-bottom:8px;
+  padding:12px;
+  border-radius:18px;
+  margin-bottom:10px;
   cursor:grab;
   user-select:none;
+  font-size:16px;
 }
 
 .subject.checked{
@@ -102,10 +114,12 @@ p{font-size:17px}
 
 <div class="header">
   <h1>Plan de estudios – Derecho</h1>
-  <p>Créditos aprobados: <strong><span id="approvedCredits">0</span></strong> / 183</p>
+  <p>Créditos aprobados: <span id="approvedCredits">0</span> / 183</p>
+
   <div class="progress-container">
     <div id="progress" class="progress-bar"></div>
   </div>
+
   <div class="menu">
     <button onclick="resetAll()">Reiniciar</button>
   </div>
@@ -202,9 +216,11 @@ let semesters = JSON.parse(localStorage.getItem('malla'))
 let dragData=null;
 
 function save(){localStorage.setItem('malla',JSON.stringify(semesters));}
+
 function resetAll(){
   semesters = JSON.parse(JSON.stringify(baseSemesters));
-  save(); render();
+  save();
+  render();
 }
 
 function render(){
