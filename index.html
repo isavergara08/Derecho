@@ -9,7 +9,7 @@
 <style>
 body{
   font-family:'Poppins',sans-serif;
-  background:#f7efff;
+  background:linear-gradient(#f7efff,#fcfaff);
   padding:30px;
 }
 
@@ -39,7 +39,7 @@ body{
   font-weight:600;
 }
 
-.info-line{text-align:center;margin:10px 0;}
+.info-line{text-align:center;margin:10px 0;font-size:14px;}
 
 .subject{
   background:#f1e6ff;
@@ -47,6 +47,7 @@ body{
   border-radius:16px;
   margin-bottom:8px;
   cursor:grab;
+  user-select:none;
 }
 
 .subject.checked{
@@ -62,7 +63,7 @@ body{
 <body>
 
 <div class="header">
-  <h1>Malla Derecho</h1>
+  <h1>Mi Malla de Derecho</h1>
   <p>Créditos aprobados: <span id="approvedCredits">0</span> / 183</p>
   <div class="progress-container">
     <div id="progress" class="progress-bar"></div>
@@ -75,14 +76,82 @@ body{
 const TOTAL = 183;
 
 let semesters = JSON.parse(localStorage.getItem('malla')) || [
+ {name:'1° semestre',subjects:[
+  {name:'Lógica y Retórica',credits:3,done:false},
+  {name:'Teoría General del Estado',credits:3,done:false},
+  {name:'Introducción al Derecho',credits:4,done:false},
+  {name:'Matemáticas',credits:3,done:false},
+  {name:'Escritura Universitaria I',credits:2,done:false},
+  {name:'CBU 1 – Colombia país de desigualdades',credits:2,done:false}
+ ]},
+ {name:'2° semestre',subjects:[
+  {name:'Hermenéutica Jurídica',credits:3,done:false},
+  {name:'Derecho Romano',credits:3,done:false},
+  {name:'Sociología Jurídica',credits:3,done:false},
+  {name:'Historia de las Instituciones Jurídicas',credits:3,done:false},
+  {name:'Escritura Universitaria II',credits:2,done:false},
+  {name:'CBU 2 – Teatro, juventud y rebelión',credits:2,done:false},
+  {name:'CBU 3 – Colombia, espacio y tiempo',credits:2,done:false}
+ ]},
+ {name:'3° semestre',subjects:[
+  {name:'Juez e Interpretación Constitucional',credits:3,done:false},
+  {name:'Obligaciones I',credits:5,done:false},
+  {name:'Derecho Constitucional',credits:5,done:false},
+  {name:'Propiedad y Derechos Reales',credits:3,done:false},
+  {name:'CBU 4 – Cantos de boga',credits:2,done:false},
+  {name:'Curso Libre Elección 1',credits:3,done:false}
+ ]},
+ {name:'4° semestre',subjects:[
+  {name:'Teoría Jurídica',credits:5,done:false},
+  {name:'Obligaciones II',credits:5,done:false},
+  {name:'Legislación y Políticas Públicas',credits:3,done:false},
+  {name:'Derecho Internacional',credits:3,done:false},
+  {name:'CBU 5 – Quijote, dilemas universales',credits:2,done:false}
+ ]},
+ {name:'5° semestre',subjects:[
+  {name:'Procedimientos',credits:4,done:false},
+  {name:'Relaciones Laborales',credits:3,done:false},
+  {name:'Derecho Comercial',credits:3,done:false},
+  {name:'Derecho Penal',credits:3,done:false},
+  {name:'Derecho Público Administrativo',credits:3,done:false},
+  {name:'CBU 6 – Mentalidad de Crecimiento',credits:2,done:false}
+ ]},
  {name:'6° semestre',subjects:[
   {name:'Protección Laboral',credits:3,done:false},
   {name:'Pruebas',credits:3,done:false},
   {name:'Contratos',credits:5,done:false},
   {name:'Penal Especial',credits:3,done:false},
-  {name:'Argumentación Civil',credits:3,done:false},
-  {name:'Facultativa 1',credits:3,done:false},
-  {name:'CBU 7',credits:2,done:false}
+  {name:'Argumentación Procesos Civiles',credits:3,done:false},
+  {name:'Materia Facultativa 1',credits:3,done:false}
+ ]},
+ {name:'7° semestre',subjects:[
+  {name:'Relaciones Familiares',credits:4,done:false},
+  {name:'Sociedades',credits:3,done:false},
+  {name:'Contratos Estatales',credits:3,done:false},
+  {name:'Proceso Ejecutivo y Declarativo',credits:3,done:false},
+  {name:'Argumentación Procesos Penales',credits:3,done:false},
+  {name:'CBU 7 – Historia del Sexo',credits:2,done:false},
+  {name:'Materia Facultativa 2',credits:3,done:false}
+ ]},
+ {name:'8° semestre',subjects:[
+  {name:'Acciones Públicas',credits:3,done:false},
+  {name:'Títulos Valores',credits:3,done:false},
+  {name:'Derecho Comparado',credits:3,done:false},
+  {name:'Ética Profesional',credits:3,done:false},
+  {name:'Derecho Internacional Privado',credits:3,done:false},
+  {name:'Materia Facultativa 3',credits:3,done:false},
+  {name:'Curso Libre Elección 2',credits:3,done:false}
+ ]},
+ {name:'9° semestre',subjects:[
+  {name:'Opciones de Grado',credits:6,done:false},
+  {name:'Consultorio Jurídico I',credits:4,done:false},
+  {name:'Materia Facultativa 4',credits:3,done:false},
+  {name:'Materia Facultativa 5',credits:3,done:false},
+  {name:'Curso Libre Elección 3',credits:3,done:false}
+ ]},
+ {name:'10° semestre',subjects:[
+  {name:'Consultorio Jurídico II',credits:4,done:false},
+  {name:'Materia Facultativa 6',credits:3,done:false}
  ]}
 ];
 
@@ -97,9 +166,9 @@ function render(){
   const card=document.createElement('div');
   card.className='card';
 
-  const credits=sem.subjects.reduce((a,b)=>a+b.credits,0);
+  const totalCredits=sem.subjects.reduce((a,b)=>a+b.credits,0);
   card.innerHTML=`<div class="sem-title">${sem.name}</div>
-                  <div class="info-line">${credits} créditos</div>`;
+                  <div class="info-line">${totalCredits} créditos</div>`;
 
   const list=document.createElement('div');
 
@@ -110,10 +179,7 @@ function render(){
     else list.insertBefore(dragged,after);
   };
 
-  list.ondrop=()=>{
-    save();
-    render();
-  };
+  list.ondrop=()=>{ save(); render(); };
 
   sem.subjects.forEach((sub,ci)=>{
     if(sub.done) approved+=sub.credits;
@@ -130,22 +196,20 @@ function render(){
 
     div.ondragstart=()=>{
       dragged=div;
-      dragged.dataset.fromSem=si;
+      dragged.dataset.from=si;
       dragged.dataset.index=ci;
       div.classList.add('dragging');
     };
 
     div.ondragend=()=>{
       div.classList.remove('dragging');
-      const from=dragged.dataset.fromSem;
+      const from=dragged.dataset.from;
       const idx=dragged.dataset.index;
       const to=si;
       const newIdx=[...list.children].indexOf(div);
-
       const moved=semesters[from].subjects.splice(idx,1)[0];
       semesters[to].subjects.splice(newIdx,0,moved);
-      save();
-      render();
+      save(); render();
     };
 
     list.appendChild(div);
