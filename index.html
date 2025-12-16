@@ -7,11 +7,17 @@
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
+*{box-sizing:border-box}
+
 body{
   font-family:'Poppins',sans-serif;
+  font-size:14px;
   background:linear-gradient(#f7efff,#fcfaff);
   padding:30px;
 }
+
+h1{font-size:32px;margin-bottom:5px}
+p{font-size:16px}
 
 .header{text-align:center;margin-bottom:30px;}
 
@@ -31,18 +37,18 @@ body{
 
 .menu{text-align:center;margin-top:15px;}
 .menu button{
+  font-size:14px;
   padding:8px 18px;
   border:none;
   border-radius:20px;
   background:#e8d4ff;
   cursor:pointer;
-  font-family:'Poppins';
 }
 
-/* 🔥 GRID CONTROLADO */
+/* GRID 3-3-3-1 */
 .grid{
   display:grid;
-  grid-template-columns:repeat(3, 1fr);
+  grid-template-columns:repeat(3,1fr);
   gap:30px;
 }
 
@@ -53,11 +59,10 @@ body{
   padding:15px;
 }
 
-.card.sem-10{
-  grid-column:2 / 3;
-}
+.card.sem-10{grid-column:2/3}
 
 .sem-title{
+  font-size:18px;
   background:#8238FF;
   color:white;
   padding:10px;
@@ -73,6 +78,7 @@ body{
 }
 
 .subject{
+  font-size:14px;
   background:#f1e6ff;
   padding:10px;
   border-radius:16px;
@@ -109,41 +115,97 @@ body{
 <script>
 const TOTAL = 183;
 
-let semesters = JSON.parse(localStorage.getItem('malla')) || [
+/* 🧠 MALLA BASE (LA BUENA) */
+const baseSemesters = [
  {name:'1° semestre',subjects:[
+  {name:'Lógica y Retórica',credits:3,done:false},
+  {name:'Teoría General del Estado',credits:3,done:false},
   {name:'Introducción al Derecho',credits:4,done:false},
-  {name:'Teoría General del Estado',credits:3,done:false}
+  {name:'Matemáticas',credits:3,done:false},
+  {name:'Escritura Universitaria I',credits:2,done:false},
+  {name:'CBU 1 – Colombia país de desigualdades',credits:2,done:false}
  ]},
  {name:'2° semestre',subjects:[
-  {name:'Derecho Romano',credits:3,done:false}
+  {name:'Hermenéutica Jurídica',credits:3,done:false},
+  {name:'Derecho Romano',credits:3,done:false},
+  {name:'Sociología Jurídica',credits:3,done:false},
+  {name:'Historia de las Instituciones Jurídicas',credits:3,done:false},
+  {name:'Escritura Universitaria II',credits:2,done:false},
+  {name:'CBU 2 – Teatro, juventud y rebelión',credits:2,done:false},
+  {name:'CBU 3 – Colombia, espacio y tiempo',credits:2,done:false}
  ]},
  {name:'3° semestre',subjects:[
-  {name:'Derecho Constitucional',credits:5,done:false}
+  {name:'Juez e Interpretación Constitucional',credits:3,done:false},
+  {name:'Obligaciones I',credits:5,done:false},
+  {name:'Derecho Constitucional',credits:5,done:false},
+  {name:'Propiedad y Derechos Reales',credits:3,done:false},
+  {name:'CBU 4 – Cantos de boga',credits:2,done:false},
+  {name:'Curso Libre Elección 1',credits:3,done:false}
  ]},
  {name:'4° semestre',subjects:[
-  {name:'Obligaciones I',credits:5,done:false}
+  {name:'Teoría Jurídica',credits:5,done:false},
+  {name:'Obligaciones II',credits:5,done:false},
+  {name:'Legislación y Políticas Públicas',credits:3,done:false},
+  {name:'Derecho Internacional',credits:3,done:false},
+  {name:'CBU 5 – Quijote, dilemas universales',credits:2,done:false}
  ]},
  {name:'5° semestre',subjects:[
-  {name:'Derecho Penal',credits:3,done:false}
+  {name:'Procedimientos',credits:4,done:false},
+  {name:'Relaciones Laborales',credits:3,done:false},
+  {name:'Derecho Comercial',credits:3,done:false},
+  {name:'Derecho Penal',credits:3,done:false},
+  {name:'Derecho Público Administrativo',credits:3,done:false},
+  {name:'CBU 6 – Mentalidad de Crecimiento',credits:2,done:false}
  ]},
  {name:'6° semestre',subjects:[
-  {name:'Contratos',credits:5,done:false}
+  {name:'Protección Laboral',credits:3,done:false},
+  {name:'Pruebas',credits:3,done:false},
+  {name:'Contratos',credits:5,done:false},
+  {name:'Penal Especial',credits:3,done:false},
+  {name:'Argumentación Procesos Civiles',credits:3,done:false},
+  {name:'Materia Facultativa 1',credits:3,done:false}
  ]},
  {name:'7° semestre',subjects:[
-  {name:'Sociedades',credits:3,done:false}
+  {name:'Relaciones Familiares',credits:4,done:false},
+  {name:'Sociedades',credits:3,done:false},
+  {name:'Contratos Estatales',credits:3,done:false},
+  {name:'Proceso Ejecutivo y Declarativo',credits:3,done:false},
+  {name:'Argumentación Procesos Penales',credits:3,done:false},
+  {name:'CBU 7 – Historia del Sexo',credits:2,done:false},
+  {name:'Materia Facultativa 2',credits:3,done:false}
  ]},
  {name:'8° semestre',subjects:[
-  {name:'Ética Profesional',credits:3,done:false}
+  {name:'Acciones Públicas',credits:3,done:false},
+  {name:'Títulos Valores',credits:3,done:false},
+  {name:'Derecho Comparado',credits:3,done:false},
+  {name:'Ética Profesional',credits:3,done:false},
+  {name:'Derecho Internacional Privado',credits:3,done:false},
+  {name:'Materia Facultativa 3',credits:3,done:false},
+  {name:'Curso Libre Elección 2',credits:3,done:false}
  ]},
  {name:'9° semestre',subjects:[
-  {name:'Consultorio Jurídico I',credits:4,done:false}
+  {name:'Opciones de Grado',credits:6,done:false},
+  {name:'Consultorio Jurídico I',credits:4,done:false},
+  {name:'Materia Facultativa 4',credits:3,done:false},
+  {name:'Materia Facultativa 5',credits:3,done:false},
+  {name:'Curso Libre Elección 3',credits:3,done:false}
  ]},
  {name:'10° semestre',subjects:[
-  {name:'Consultorio Jurídico II',credits:4,done:false}
+  {name:'Consultorio Jurídico II',credits:4,done:false},
+  {name:'Materia Facultativa 6',credits:3,done:false}
  ]}
 ];
 
+let semesters = JSON.parse(localStorage.getItem('malla')) 
+  || JSON.parse(JSON.stringify(baseSemesters));
+
 let dragData=null;
+
+function save(){localStorage.setItem('malla',JSON.stringify(semesters));}
+function resetAll(){
+  semesters = JSON.parse(JSON.stringify(baseSemesters));
+  save(); render();
+}
 
 function render(){
  const grid=document.getElementById('grid');
@@ -154,8 +216,8 @@ function render(){
   const card=document.createElement('div');
   card.className='card'+(sem.name.startsWith('10')?' sem-10':'');
 
-  const approved = sem.subjects.filter(s=>s.done).reduce((a,b)=>a+b.credits,0);
-  const total = sem.subjects.reduce((a,b)=>a+b.credits,0);
+  const approved=sem.subjects.filter(s=>s.done).reduce((a,b)=>a+b.credits,0);
+  const total=sem.subjects.reduce((a,b)=>a+b.credits,0);
   approvedTotal+=approved;
 
   card.innerHTML=`
@@ -211,9 +273,6 @@ function getAfter(container,y){
   return y < box.top + box.height/2;
  });
 }
-
-function save(){localStorage.setItem('malla',JSON.stringify(semesters));}
-function resetAll(){localStorage.removeItem('malla'); location.reload();}
 
 render();
 </script>
