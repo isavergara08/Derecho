@@ -11,13 +11,13 @@
 
 body{
   font-family:'Poppins',sans-serif;
-  font-size:14px;
+  font-size:15px;
   background:linear-gradient(#f7efff,#fcfaff);
   padding:30px;
 }
 
-h1{font-size:32px;margin-bottom:5px}
-p{font-size:16px}
+h1{font-size:32px;margin-bottom:6px}
+p{font-size:17px}
 
 .header{text-align:center;margin-bottom:30px;}
 
@@ -37,7 +37,7 @@ p{font-size:16px}
 
 .menu{text-align:center;margin-top:15px;}
 .menu button{
-  font-size:14px;
+  font-size:15px;
   padding:8px 18px;
   border:none;
   border-radius:20px;
@@ -45,7 +45,7 @@ p{font-size:16px}
   cursor:pointer;
 }
 
-/* GRID 3-3-3-1 */
+/* GRID */
 .grid{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -56,13 +56,13 @@ p{font-size:16px}
   background:#faf4ff;
   border:2px solid #d9b8ff;
   border-radius:22px;
-  padding:15px;
+  padding:16px;
 }
 
 .card.sem-10{grid-column:2/3}
 
 .sem-title{
-  font-size:18px;
+  font-size:19px;
   background:#8238FF;
   color:white;
   padding:10px;
@@ -74,13 +74,14 @@ p{font-size:16px}
 .info-line{
   text-align:center;
   margin:10px 0;
-  font-size:14px;
+  font-size:15px;
+  font-weight:600; /* 🔥 vuelve la negrita */
 }
 
 .subject{
-  font-size:14px;
+  font-size:15px;
   background:#f1e6ff;
-  padding:10px;
+  padding:11px;
   border-radius:16px;
   margin-bottom:8px;
   cursor:grab;
@@ -101,7 +102,7 @@ p{font-size:16px}
 
 <div class="header">
   <h1>Plan de estudios – Derecho</h1>
-  <p>Créditos aprobados: <span id="approvedCredits">0</span> / 183</p>
+  <p>Créditos aprobados: <strong><span id="approvedCredits">0</span></strong> / 183</p>
   <div class="progress-container">
     <div id="progress" class="progress-bar"></div>
   </div>
@@ -115,7 +116,6 @@ p{font-size:16px}
 <script>
 const TOTAL = 183;
 
-/* 🧠 MALLA BASE (LA BUENA) */
 const baseSemesters = [
  {name:'1° semestre',subjects:[
   {name:'Lógica y Retórica',credits:3,done:false},
@@ -222,7 +222,7 @@ function render(){
 
   card.innerHTML=`
     <div class="sem-title">${sem.name}</div>
-    <div class="info-line">${approved} / ${total} créditos</div>
+    <div class="info-line">${approved} / ${total}</div>
   `;
 
   const list=document.createElement('div');
